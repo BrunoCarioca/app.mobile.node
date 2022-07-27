@@ -4,3 +4,4 @@ build/
 coverage/
 .env
 ormconfig.json
+.docker/dbdata
