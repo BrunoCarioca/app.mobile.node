@@ -3,6 +3,7 @@ import AppError from '@shared/errors/AppError';
 import cors from 'cors';
 import 'dotenv/config';
 import express, { NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
 import '../typeorm';
 import { routes } from './routes';
 
@@ -35,5 +36,5 @@ app.use(
 );
 
 app.listen(port, () => {
-    console.log(`Servidor rodando na porta http://localhost:${port}!`);
+    console.log(`Servidor rodando na porta http://localhost:${port} !`);
 });
