@@ -1,5 +1,5 @@
 #!/bin/bash
 
-yarn install
-yarn typeorm migration:run
-yarn dev
+npm install
+npm run typeorm -- -d ./src/shared/infra/typeorm/index.ts migration:run
+npm run dev
