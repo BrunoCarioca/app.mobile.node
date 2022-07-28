@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import { DataSource } from 'typeorm';
 /**Entities */
-// import {} from '@modules/users/infra/typeorm/entities';
+import { User } from '@modules/users/infra/typeorm/entities/User';
 /**Migrations*/
 import { UsersTableCreate1658098917317 } from './migrations/1658098917317-UsersTableCreate';
 
@@ -12,6 +12,6 @@ export const dataSource = new DataSource({
     username: process.env.APP_POSTGRES_USERNAME,
     password: process.env.APP_POSTGRES_PASSWORD,
     database: process.env.APP_POSTGRES_DATABASE,
-    entities: [],
+    entities: [User],
     migrations: [UsersTableCreate1658098917317],
 });
