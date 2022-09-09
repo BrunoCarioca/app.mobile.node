@@ -16,7 +16,6 @@ describe('Testar o servico de Create User', () => {
             email: 'teste@teste.com',
             name: 'Bruno',
             password: '12345',
-            role: 'admin',
         });
 
         expect(user).toHaveProperty('id');
@@ -29,7 +28,6 @@ describe('Testar o servico de Create User', () => {
             email: 'teste@teste.com',
             name: 'Bruno',
             password: '12345',
-            role: 'admin',
         });
 
         expect(
@@ -37,18 +35,6 @@ describe('Testar o servico de Create User', () => {
                 email: 'teste@teste.com',
                 name: 'Andrei',
                 password: '54321',
-                role: 'admin',
-            }),
-        ).rejects.toBeInstanceOf(AppError);
-    });
-
-    it('Não posso criar um usuário com not isRole', async () => {
-        expect(
-            createUserService.execute({
-                email: 'teste@teste.com',
-                name: 'Andrei',
-                password: '54321',
-                role: 'picadasgalaxias',
             }),
         ).rejects.toBeInstanceOf(AppError);
     });

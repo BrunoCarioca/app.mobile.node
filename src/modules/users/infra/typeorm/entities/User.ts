@@ -22,9 +22,6 @@ export class User implements IUser {
     password: string;
 
     @Column()
-    role: string;
-
-    @Column()
     working: boolean;
 
     @CreateDateColumn()

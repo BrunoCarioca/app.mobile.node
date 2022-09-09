@@ -32,17 +32,15 @@ export class FakeUserRepository implements IUserRepository {
 
     public async create({
         email,
-        nome,
+        name,
         password,
-        role,
     }: ICreateUser): Promise<IUser> {
         ++this.id;
         const user = {
             id: this.id,
             email,
-            nome,
+            name,
             password,
-            role,
             working: false,
         };
 

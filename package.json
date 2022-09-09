@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "main": "index.js",
     "author": "Bruno Fonseca <brunomaiaf20@gmail.com>",
+    "description": "Api para um aplicativo de monitoramento de trabalho a distância",
+    "repository": {
+        "url": "https://github.com/BrunoCarioca/app.mobile.node"
+    },
     "license": "MIT",
     "devDependencies": {
         "@types/cors": "^2.8.12",
@@ -22,6 +26,7 @@
         "typescript": "^4.7.4"
     },
     "dependencies": {
+        "celebrate": "^15.0.1",
         "cors": "^2.8.5",
         "dotenv": "^16.0.1",
         "express": "^4.18.1",

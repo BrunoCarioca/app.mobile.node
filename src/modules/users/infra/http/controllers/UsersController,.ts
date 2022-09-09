@@ -7,7 +7,7 @@ export class UsersController {
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { email, name, password, role } = request.body;
+        const { email, name, password } = request.body;
 
         const usersRepository = new UsersRepository();
         const createUserService = new CreateUserService(usersRepository);
@@ -16,7 +16,6 @@ export class UsersController {
             email,
             name,
             password,
-            role,
         });
 
         return response.status(200).json(user);

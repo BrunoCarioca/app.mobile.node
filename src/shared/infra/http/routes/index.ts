@@ -1,10 +1,10 @@
 import { userRouters } from '@modules/users/infra/http/routes/users.routes';
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
+import { HateoasController } from './Hateoas/HateoasController';
 
 export const routes = Router();
+const hateoas = new HateoasController();
 
 routes.use('/api/users', userRouters);
 
-routes.get('/api', (_request: Request, response: Response) => {
-    return response.send('estou no index!');
-});
+routes.get('/api', hateoas.index);
