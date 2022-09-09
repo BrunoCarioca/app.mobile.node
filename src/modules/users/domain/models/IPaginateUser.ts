@@ -6,3 +6,8 @@ export interface IPaginateUser {
     current_page: number;
     data: IUser[];
 }
+
+export interface IListUser {
+    page: number;
+    limit: number;
+}

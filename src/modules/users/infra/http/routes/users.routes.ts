@@ -19,3 +19,5 @@ userRouters.post(
     }),
     usersController.create,
 );
+
+userRouters.get('/', usersController.index);
