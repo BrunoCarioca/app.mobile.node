@@ -19,12 +19,6 @@ export class UsersTableCreate1658098917317 implements MigrationInterface {
                         isNullable: false,
                     },
                     {
-                        name: 'role',
-                        type: 'enum',
-                        enum: ['admin', 'manager', 'normal'],
-                        isNullable: false,
-                    },
-                    {
                         name: 'email',
                         type: 'varchar',
                         isUnique: true,

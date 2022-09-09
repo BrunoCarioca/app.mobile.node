@@ -11,5 +11,5 @@ export type SearchParams = {
 export interface IUserRepository {
     findAll({ page, skip, take }: SearchParams): Promise<IPaginateUser>;
     findByEmail(email: string): Promise<IUser | null>;
-    create({ email, nome, password, role }: ICreateUser): Promise<IUser>;
+    create({ email, name, password, role }: ICreateUser): Promise<IUser>;
 }
