@@ -15,7 +15,7 @@
             "@modules/*": ["src/modules/*"],
             "@shared/*": ["src/shared/*"]
         },
-        "typeRoots": ["@types", "./node_modules/@types"],
+        "typeRoots": ["./src/@types", "./@types", "./node_modules/@types"],
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,

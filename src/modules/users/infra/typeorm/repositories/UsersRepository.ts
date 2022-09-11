@@ -6,6 +6,7 @@ import {
     SearchParams,
 } from '@modules/users/domain/repositories/IUserRepository';
 import { dataSource } from '@shared/infra/typeorm';
+import { instanceToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { User } from '../entities/User';
 
@@ -31,7 +32,7 @@ export class UsersRepository implements IUserRepository {
             per_page: take,
             total: count,
             current_page: page,
-            data: users,
+            data: instanceToInstance(users),
         };
 
         return result;

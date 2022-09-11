@@ -1,4 +1,5 @@
 import { IUser } from '@modules/users/domain/models/IUser';
+import { Exclude } from 'class-transformer';
 import {
     Column,
     CreateDateColumn,
@@ -19,6 +20,7 @@ export class User implements IUser {
     name: string;
 
     @Column()
+    @Exclude()
     password: string;
 
     @Column()
