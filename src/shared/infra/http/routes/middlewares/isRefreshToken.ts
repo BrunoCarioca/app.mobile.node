@@ -1,7 +1,7 @@
 import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
 import { NextFunction, Request, Response } from 'express';
-import { verify } from 'jsonwebtoken';
+import { TokenExpiredError, verify } from 'jsonwebtoken';
 
 interface TokenPayload {
     iat: number;
@@ -10,12 +10,13 @@ interface TokenPayload {
     token: string;
 }
 
-export default function isAuthenticated(
+export default function isRefreshToken(
     request: Request,
     response: Response,
     next: NextFunction,
 ): void {
     const autheHeader = request.headers.authorization;
+    console.log(autheHeader);
 
     if (!autheHeader) {
         throw new AppError('JWT Token is missing.');
@@ -24,16 +25,11 @@ export default function isAuthenticated(
     const [, token] = autheHeader.split(' ');
 
     try {
-        const decodeToken = verify(token, authConfig.jwt.secret);
-
-        const { sub } = decodeToken as TokenPayload;
-
-        request.user = {
-            id: sub,
-        };
-
-        return next();
+        verify(token, authConfig.jwt.secret);
     } catch (e) {
-        throw new AppError('Invalid JWT Token.');
+        if (e instanceof TokenExpiredError) {
+            return next();
+        }
     }
+    throw new AppError('Invalid JWT Token.');
 }

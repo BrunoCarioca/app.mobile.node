@@ -4,6 +4,6 @@ export interface IUser {
     name: string;
     password: string;
     working: boolean;
-    created_at?: Date;
-    update_at?: Date;
+    created_at: Date;
+    updated_at: Date;
 }
