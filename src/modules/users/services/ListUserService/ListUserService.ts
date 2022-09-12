@@ -7,12 +7,19 @@ export class ListUserService {
 
     public async execute({ page, limit }: IListUser): Promise<IUsersPaginate> {
         const skip = (page - 1) * limit;
+        // const redisCache = new RedisCache();
+
+        // let paginateUser = await redisCache.recover<IUsersPaginate>(
+        //     'api-mobile-USER_LIST',
+        // );
 
         const paginateUser = await this.usersRepository.findAll({
             page,
             skip,
             take: limit,
         });
+
+        // await redisCache.save('api-mobile-USER_LIST', paginateUser);
 
         return paginateUser;
     }
