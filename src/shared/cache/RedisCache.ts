@@ -27,4 +27,18 @@ export default class RedisCache {
     public async invalidate(key: string): Promise<void> {
         await this.client.del(key);
     }
+
+    public async hashSet(
+        hash: string,
+        key: number,
+        value: string,
+    ): Promise<number | null> {
+        const success = await this.client.hset(hash, key, value);
+
+        if (success === 1) {
+            return key;
+        }
+
+        return null;
+    }
 }
