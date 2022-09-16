@@ -28,11 +28,7 @@ export default class RedisCache {
         await this.client.del(key);
     }
 
-    public async hashSet(
-        hash: string,
-        key: number,
-        value: string,
-    ): Promise<number | null> {
+    public async hashSet(hash: string, key: string, value: string): Promise<string | null> {
         const success = await this.client.hset(hash, key, value);
 
         if (success === 1) {
@@ -40,5 +36,14 @@ export default class RedisCache {
         }
 
         return null;
+    }
+
+    public async hashGet(hash: string, key: string): Promise<string | null> {
+        const success = await this.client.hget(hash, key);
+        if (!success) {
+            return null;
+        }
+
+        return success;
     }
 }
