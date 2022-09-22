@@ -14,3 +14,13 @@ forgotPasswordRouter.post(
     }),
     forgotPasswordController.forgotPassword,
 );
+
+forgotPasswordRouter.get(
+    '/',
+    celebrate({
+        [Segments.QUERY]: {
+            code: Joi.string().min(4).required(),
+        },
+    }),
+    forgotPasswordController.confirmCode,
+);

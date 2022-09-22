@@ -18,18 +18,14 @@ export class SessionController {
         });
 
         const refreshTokenRepository = new RefreshTokenRepository();
-        const refreshtokenCreateService = new RefreshtokenCreateService(
-            refreshTokenRepository,
-        );
+        const refreshtokenCreateService = new RefreshtokenCreateService(refreshTokenRepository);
 
-        const { id: refresh_token } = await refreshtokenCreateService.execute(
-            user,
-        );
+        const { id: refresh_token } = await refreshtokenCreateService.execute(user);
 
         const userRes = instanceToInstance(user);
 
         return response.status(200).json({
-            userRes,
+            user: userRes,
             token,
             refresh_token,
         });

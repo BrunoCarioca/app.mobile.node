@@ -12,4 +12,5 @@ export interface IUserRepository {
     findAll({ page, skip, take }: SearchParams): Promise<IPaginateUser>;
     findByEmail(email: string): Promise<IUser | null>;
     create({ email, name, password }: ICreateUser): Promise<IUser>;
+    updatePassword(user: IUser): Promise<void>;
 }

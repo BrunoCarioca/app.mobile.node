@@ -46,4 +46,8 @@ export default class RedisCache {
 
         return success;
     }
+
+    public async hashDel(hash: string, key: string): Promise<void> {
+        await this.client.hdel(hash, key);
+    }
 }

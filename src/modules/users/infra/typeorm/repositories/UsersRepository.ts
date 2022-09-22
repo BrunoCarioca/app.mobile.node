@@ -1,10 +1,7 @@
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IPaginateUser } from '@modules/users/domain/models/IPaginateUser';
 import { IUser } from '@modules/users/domain/models/IUser';
-import {
-    IUserRepository,
-    SearchParams,
-} from '@modules/users/domain/repositories/IUserRepository';
+import { IUserRepository, SearchParams } from '@modules/users/domain/repositories/IUserRepository';
 import { dataSource } from '@shared/infra/typeorm';
 import { instanceToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
@@ -17,11 +14,7 @@ export class UsersRepository implements IUserRepository {
         this.ormRepository = dataSource.getRepository(User);
     }
 
-    public async findAll({
-        page,
-        skip,
-        take,
-    }: SearchParams): Promise<IPaginateUser> {
+    public async findAll({ page, skip, take }: SearchParams): Promise<IPaginateUser> {
         const [users, count] = await this.ormRepository
             .createQueryBuilder()
             .skip(skip)
@@ -45,11 +38,7 @@ export class UsersRepository implements IUserRepository {
         return user;
     }
 
-    public async create({
-        email,
-        name,
-        password,
-    }: ICreateUser): Promise<IUser> {
+    public async create({ email, name, password }: ICreateUser): Promise<IUser> {
         const user = await this.ormRepository.create({
             email,
             name,
@@ -59,5 +48,9 @@ export class UsersRepository implements IUserRepository {
         await this.ormRepository.save(user);
 
         return user;
+    }
+
+    public async updatePassword(user: IUser): Promise<void> {
+        await this.ormRepository.save(user);
     }
 }

@@ -1,8 +1,8 @@
 import authConfig from '@config/auth';
 import { IUser } from '@modules/users/domain/models/IUser';
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
+import { BcryptHashProvider } from '@modules/users/providers/HashProvider';
 import AppError from '@shared/errors/AppError';
-import { compare } from 'bcryptjs';
 import { sign } from 'jsonwebtoken';
 
 interface IRequest {
@@ -25,7 +25,7 @@ export class CreateSessionService {
             throw new AppError('Incorrect email/password combination.', 401);
         }
 
-        const passwordConfirmed = await compare(password, user.password);
+        const passwordConfirmed = await BcryptHashProvider.compareHash(password, user.password);
 
         if (!passwordConfirmed) {
             throw new AppError('Incorrect email/password combination.', 401);

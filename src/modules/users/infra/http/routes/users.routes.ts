@@ -13,9 +13,7 @@ userRouters.post(
             name: Joi.string().required().min(3),
             email: Joi.string().required().email(),
             password: Joi.string().required(),
-            password_confirmation: Joi.string()
-                .required()
-                .valid(Joi.ref('password')),
+            password_confirmation: Joi.string().required().valid(Joi.ref('password')),
         },
     }),
     usersController.create,

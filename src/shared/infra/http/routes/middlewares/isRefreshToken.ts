@@ -16,7 +16,6 @@ export default function isRefreshToken(
     next: NextFunction,
 ): void {
     const autheHeader = request.headers.authorization;
-    console.log(autheHeader);
 
     if (!autheHeader) {
         throw new AppError('JWT Token is missing.');

@@ -11,7 +11,6 @@ export class ForgotPasswordService {
     public async execute(email: string): Promise<void> {
         let codigo: number;
         const redisCache = new RedisCache();
-        console.log(email);
 
         const emailExist = await this.userRepository.findByEmail(email);
 
@@ -37,7 +36,6 @@ export class ForgotPasswordService {
             'forgot_password.hbs',
         );
 
-        console.log(forgotPasswordTemplate);
 
         await Mail.sendMail({
             to: {
