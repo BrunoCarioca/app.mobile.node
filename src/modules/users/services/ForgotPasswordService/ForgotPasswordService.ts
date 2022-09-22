@@ -36,7 +36,6 @@ export class ForgotPasswordService {
             'forgot_password.hbs',
         );
 
-
         await Mail.sendMail({
             to: {
                 name: 'testeNome',
