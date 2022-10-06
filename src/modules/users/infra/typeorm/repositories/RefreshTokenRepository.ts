@@ -1,11 +1,11 @@
 import { IRefreshToken } from '@modules/users/domain/models/IRefreshToken';
-import { IRefreshRokenRepository } from '@modules/users/domain/repositories/IRefreshTokenRepository';
+import { IRefreshTokenRepository } from '@modules/users/domain/repositories/IRefreshTokenRepository';
 import { dataSource } from '@shared/infra/typeorm';
 import { Repository } from 'typeorm';
 import RefreshToken from '../entities/RefreshToken';
 import { User } from '../entities/User';
 
-export class RefreshTokenRepository implements IRefreshRokenRepository {
+export class RefreshTokenRepository implements IRefreshTokenRepository {
     private ormRepository: Repository<RefreshToken>;
 
     constructor() {

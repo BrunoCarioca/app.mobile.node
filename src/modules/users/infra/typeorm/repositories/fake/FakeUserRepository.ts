@@ -1,19 +1,13 @@
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
+import { IPaginateUser } from '@modules/users/domain/models/IPaginateUser';
 import { IUser } from '@modules/users/domain/models/IUser';
-import {
-    IUserRepository,
-    SearchParams,
-} from '@modules/users/domain/repositories/IUserRepository';
+import { IUserRepository, SearchParams } from '@modules/users/domain/repositories/IUserRepository';
 
 export class FakeUserRepository implements IUserRepository {
     private users: IUser[] = [];
     private id = 0;
 
-    public async findAll({
-        page,
-        skip,
-        take,
-    }: SearchParams): Promise<IPaginateUser> {
+    public async findAll({ page, skip, take }: SearchParams): Promise<IPaginateUser> {
         const result = {
             per_page: take,
             total: this.users.length,
@@ -30,11 +24,7 @@ export class FakeUserRepository implements IUserRepository {
         return user ? user : null;
     }
 
-    public async create({
-        email,
-        name,
-        password,
-    }: ICreateUser): Promise<IUser> {
+    public async create({ email, name, password }: ICreateUser): Promise<IUser> {
         ++this.id;
         const user = {
             id: this.id,
@@ -42,10 +32,18 @@ export class FakeUserRepository implements IUserRepository {
             name,
             password,
             working: false,
+            created_at: new Date(),
+            updated_at: new Date(),
         };
 
         this.users.push(user);
 
         return this.users[this.id - 1];
+    }
+
+    public async updatePassword(updateUser: IUser): Promise<IUser> {
+        const index = this.users.findIndex(user => user.id === updateUser.id);
+        this.users[index].password = updateUser.password;
+        return this.users[index];
     }
 }

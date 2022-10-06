@@ -1,13 +1,12 @@
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
-import RedisCache from '@shared/cache/RedisCache';
+import { IRedisCache } from '@shared/cache/IRedisCache';
 import AppError from '@shared/errors/AppError';
 
 export class ConfirmCodeService {
-    constructor(private userRepository: IUserRepository) {}
+    constructor(private userRepository: IUserRepository, private redisCache: IRedisCache) {}
 
-    public async execute(code: string): Promise<void> {
-        const redisCache = new RedisCache();
-        const email = await redisCache.hashGet('codigo', code);
+    public async execute(code: string): Promise<boolean> {
+        const email = await this.redisCache.hashGet('codigo', code);
 
         if (!email) {
             throw new AppError('Code not Register!');
@@ -18,5 +17,7 @@ export class ConfirmCodeService {
         if (!emailExist) {
             throw new AppError('Email not Exit');
         }
+
+        return true;
     }
 }

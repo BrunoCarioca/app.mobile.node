@@ -1,16 +1,15 @@
 import Mail from '@config/mail/Mail';
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 import { codigoRandom } from '@modules/users/providers/codigoRandom';
-import RedisCache from '@shared/cache/RedisCache';
+import { IRedisCache } from '@shared/cache/IRedisCache';
 import AppError from '@shared/errors/AppError';
 import path from 'path';
 
 export class ForgotPasswordService {
-    constructor(private userRepository: IUserRepository) {}
+    constructor(private userRepository: IUserRepository, private redisCache: IRedisCache) {}
 
     public async execute(email: string): Promise<void> {
         let codigo: number;
-        const redisCache = new RedisCache();
 
         const emailExist = await this.userRepository.findByEmail(email);
 
@@ -22,12 +21,12 @@ export class ForgotPasswordService {
 
         do {
             codigo = codigoRandom();
-            const codigoEmail = await redisCache.hashGet('codigo', String(codigo));
+            const codigoEmail = await this.redisCache.hashGet('codigo', String(codigo));
             if (!codigoEmail) {
                 codigoExist = false;
             }
         } while (codigoExist);
-        const key = await redisCache.hashSet('codigo', String(codigo), email);
+        const key = await this.redisCache.hashSet('codigo', String(codigo), email);
         const forgotPasswordTemplate = path.resolve(
             __dirname,
             '..',

@@ -50,7 +50,8 @@ export class UsersRepository implements IUserRepository {
         return user;
     }
 
-    public async updatePassword(user: IUser): Promise<void> {
-        await this.ormRepository.save(user);
+    public async updatePassword(user: IUser): Promise<IUser> {
+        const updateUser = await this.ormRepository.save(user);
+        return updateUser;
     }
 }

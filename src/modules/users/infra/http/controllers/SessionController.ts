@@ -1,5 +1,5 @@
 import { CreateSessionService } from '@modules/users/services/CreateSessionService/CreateSessionService';
-import { RefreshtokenCreateService } from '@modules/users/services/Refreshtoken/RefreshtokenCreateService';
+import { RefreshTokenCreateService } from '@modules/users/services/RefreshTokenCreate/RefreshTokenCreateService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { RefreshTokenRepository } from '../../typeorm/repositories/RefreshTokenRepository';
@@ -18,7 +18,7 @@ export class SessionController {
         });
 
         const refreshTokenRepository = new RefreshTokenRepository();
-        const refreshtokenCreateService = new RefreshtokenCreateService(refreshTokenRepository);
+        const refreshtokenCreateService = new RefreshTokenCreateService(refreshTokenRepository);
 
         const { id: refresh_token } = await refreshtokenCreateService.execute(user);
 
