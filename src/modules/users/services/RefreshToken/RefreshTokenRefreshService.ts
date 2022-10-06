@@ -1,11 +1,11 @@
 import authConfig from '@config/auth';
-import { IRefreshRokenRepository } from '@modules/users/domain/repositories/IRefreshTokenRepository';
+import { IRefreshTokenRepository } from '@modules/users/domain/repositories/IRefreshTokenRepository';
 import AppError from '@shared/errors/AppError';
 import { fromUnixTime, isAfter } from 'date-fns';
 import { sign } from 'jsonwebtoken';
 
 export class RefreshTokenRefreshService {
-    constructor(private refreshTokenRepository: IRefreshRokenRepository) {}
+    constructor(private refreshTokenRepository: IRefreshTokenRepository) {}
 
     public async execute(uuid: string) {
         const refreshToken = await this.refreshTokenRepository.findById(uuid);
