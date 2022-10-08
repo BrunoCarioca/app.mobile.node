@@ -1,8 +1,8 @@
-import Mail from '@config/mail/Mail';
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 import { codigoRandom } from '@modules/users/providers/codigoRandom';
 import { IRedisCache } from '@shared/cache/IRedisCache';
 import AppError from '@shared/errors/AppError';
+import Queue from '@shared/Queue/Queue';
 import path from 'path';
 
 export class ForgotPasswordService {
@@ -35,19 +35,6 @@ export class ForgotPasswordService {
             'forgot_password.hbs',
         );
 
-        await Mail.sendMail({
-            to: {
-                name: 'testeNome',
-                email,
-            },
-            subject: '[API TCC] Recuperação de senha',
-            templateData: {
-                file: forgotPasswordTemplate,
-                variables: {
-                    name: emailExist.name,
-                    codigo,
-                },
-            },
-        });
+        await Queue.add('ForgotPasswordMail', { email, name: emailExist.name, codigo });
     }
 }
