@@ -9,7 +9,7 @@ export class ForgotPasswordService {
     constructor(private userRepository: IUserRepository, private redisCache: IRedisCache) {}
 
     public async execute(email: string): Promise<void> {
-        let codigo: number;
+        let codigo: string;
 
         const emailExist = await this.userRepository.findByEmail(email);
 
@@ -20,13 +20,13 @@ export class ForgotPasswordService {
         let codigoExist = true;
 
         do {
-            codigo = codigoRandom();
-            const codigoEmail = await this.redisCache.hashGet('codigo', String(codigo));
+            codigo = String(codigoRandom());
+            const codigoEmail = await this.redisCache.hashGet('codigo', codigo);
             if (!codigoEmail) {
                 codigoExist = false;
             }
         } while (codigoExist);
-        const key = await this.redisCache.hashSet('codigo', String(codigo), email);
+        const key = await this.redisCache.hashSet('codigo', codigo, email);
         const forgotPasswordTemplate = path.resolve(
             __dirname,
             '..',
@@ -36,5 +36,7 @@ export class ForgotPasswordService {
         );
 
         await Queue.add('ForgotPasswordMail', { email, name: emailExist.name, codigo });
+
+        await Queue.add('ExpireCode', { code: codigo });
     }
 }

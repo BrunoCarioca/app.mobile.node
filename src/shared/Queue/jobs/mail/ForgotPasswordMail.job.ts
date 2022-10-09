@@ -2,7 +2,11 @@ import Mail from '@config/mail/Mail';
 import path from 'path';
 
 export default {
-    key: 'RegistrationMail',
+    key: 'ForgotPasswordMail',
+    options: {
+        attempts: 5,
+        delay: 1000,
+    },
     async handle({ data }: any) {
         const forgotPasswordTemplate = path.resolve(__dirname, 'views', 'forgot_password.hbs');
 
