@@ -1,5 +1,5 @@
 import { IUser } from '@modules/users/domain/models/IUser';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
     Column,
     CreateDateColumn,
@@ -31,4 +31,16 @@ export class User implements IUser {
 
     @UpdateDateColumn()
     updated_at: Date;
+
+    @Column()
+    avatar: string;
+
+    @Expose({ name: 'avatar_url' })
+    getAvatarUrl(): string | null {
+        if (!this.avatar) {
+            return null;
+        }
+
+        return `${process.env.APP_URL}/files/${this.avatar}`;
+    }
 }

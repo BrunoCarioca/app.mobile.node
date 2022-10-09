@@ -27,7 +27,7 @@ export class UpdatePasswordService {
 
         user.password = await BcryptHashProvider.generateHash(password);
 
-        await this.userRepository.updatePassword(user);
+        await this.userRepository.save(user);
 
         redisCache.hashDel('codigo', code);
     }

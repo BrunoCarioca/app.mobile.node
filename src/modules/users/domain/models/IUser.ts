@@ -6,4 +6,6 @@ export interface IUser {
     working: boolean;
     created_at: Date;
     updated_at: Date;
+    avatar: string;
+    getAvatarUrl(): string | null;
 }

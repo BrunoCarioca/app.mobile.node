@@ -20,7 +20,7 @@ export class ForgotPasswordService {
         let codigoExist = true;
 
         do {
-            codigo = String(codigoRandom());
+            codigo = codigoRandom().toString();
             const codigoEmail = await this.redisCache.hashGet('codigo', codigo);
             if (!codigoEmail) {
                 codigoExist = false;
