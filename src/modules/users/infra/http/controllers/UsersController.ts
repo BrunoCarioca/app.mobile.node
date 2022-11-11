@@ -1,5 +1,8 @@
 import { CreateUserService } from '@modules/users/services/CreateUserService/CreateUserService';
+import { DeleteUserService } from '@modules/users/services/DeleteUserService/DeleteUserService';
 import { ListUserService } from '@modules/users/services/ListUserService/ListUserService';
+import { ShowUserService } from '@modules/users/services/ShowUserService/ShowUserService';
+import { UpdateUserService } from '@modules/users/services/UpdateUserService/UpdateUserService';
 import { Request, Response } from 'express';
 import { UsersRepository } from '../../typeorm/repositories/UsersRepository';
 
@@ -32,14 +35,37 @@ export class UsersController {
     }
 
     public async update(request: Request, response: Response) {
-        return response.send('update');
+        const { email, name } = request.body;
+        const id = Number(request.params.id);
+
+        const usersRepository = new UsersRepository();
+        const updateUserService = new UpdateUserService(usersRepository);
+
+        const user = await updateUserService.execute(id, name, email);
+
+        return response.status(200).json(user);
     }
 
     public async show(request: Request, response: Response) {
-        return response.send('show');
+        const id = Number(request.params.id);
+
+        console.log(id);
+        const usersRepository = new UsersRepository();
+        const showUserService = new ShowUserService(usersRepository);
+
+        const user = await showUserService.execute(id);
+
+        return response.status(200).json(user);
     }
 
     public async delete(request: Request, response: Response) {
-        return response.send('delete');
+        const id = Number(request.params.id);
+
+        const usersRepository = new UsersRepository();
+        const deleteUserService = new DeleteUserService(usersRepository);
+
+        await deleteUserService.execute(id);
+
+        return response.status(200).json([]);
     }
 }

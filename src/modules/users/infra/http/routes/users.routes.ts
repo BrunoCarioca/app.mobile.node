@@ -4,7 +4,7 @@ import { Router } from 'express';
 import multer from 'multer';
 import isAuthenticated from '../../../../../shared/infra/http/routes/middlewares/isAuthenticated';
 import { UsersAvatarController } from '../controllers/UsersAvatarController';
-import { UsersController } from '../controllers/UsersController,';
+import { UsersController } from '../controllers/UsersController';
 
 export const userRouters = Router();
 const usersController = new UsersController();
@@ -34,8 +34,30 @@ userRouters.patch(
     usersAvatarController.udpdate,
 );
 
-userRouters.put('/', isAuthenticated, usersController.update);
+userRouters.put(
+    '/:id',
+    celebrate({
+        [Segments.BODY]: {
+            name: Joi.string().required().min(3),
+            email: Joi.string().required().email(),
+        },
+        [Segments.PARAMS]: {
+            id: Joi.number().required(),
+        },
+    }),
+    isAuthenticated,
+    usersController.update,
+);
 
-userRouters.delete('/', isAuthenticated, usersController.delete);
+userRouters.delete(
+    '/:id',
+    celebrate({
+        [Segments.PARAMS]: {
+            id: Joi.number().required(),
+        },
+    }),
+    isAuthenticated,
+    usersController.delete,
+);
 
 userRouters.get('/:id', isAuthenticated, usersController.show);
