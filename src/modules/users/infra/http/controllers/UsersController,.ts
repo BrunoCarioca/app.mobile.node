@@ -30,4 +30,16 @@ export class UsersController {
 
         return response.status(200).json(paginateUser);
     }
+
+    public async update(request: Request, response: Response) {
+        return response.send('update');
+    }
+
+    public async show(request: Request, response: Response) {
+        return response.send('show');
+    }
+
+    public async delete(request: Request, response: Response) {
+        return response.send('delete');
+    }
 }

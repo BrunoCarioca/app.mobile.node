@@ -33,3 +33,9 @@ userRouters.patch(
     upload.single('avatar'),
     usersAvatarController.udpdate,
 );
+
+userRouters.put('/', isAuthenticated, usersController.update);
+
+userRouters.delete('/', isAuthenticated, usersController.delete);
+
+userRouters.get('/:id', isAuthenticated, usersController.show);

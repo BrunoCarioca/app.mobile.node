@@ -22,9 +22,17 @@ export class HateoasController {
 
         hateoas.adicionaLink('PATCH', 'Atualiza a senha do usuário', `${baseUrl}update-password`);
 
-        hateoas.adicionaLink('POST', 'atualiza o token', `${baseUrl}refresh-token`);
+        hateoas.adicionaLink('POST', 'Atualiza o token', `${baseUrl}refresh-token`);
 
         hateoas.adicionaLink('POST', 'Realiza o login', `${baseUrl}login`);
+
+        hateoas.adicionaLink(
+            'PATCH',
+            'Adicionar uma imagem de perfil ao usuário',
+            `${baseUrl}usuario/avatar`,
+        );
+
+        hateoas.adicionaLink('GET', 'Lista de usuários', `${baseUrl}usuario`);
 
         return response.status(200).json(hateoas.links);
     }
