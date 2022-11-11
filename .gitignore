@@ -5,3 +5,4 @@ coverage/
 ormconfig.json
 .docker/dbdata
 .env
+uploads/*.jpg
