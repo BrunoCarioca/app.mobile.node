@@ -6,6 +6,7 @@ import { User } from '@modules/users/infra/typeorm/entities/User';
 import RefreshToken from '@modules/users/infra/typeorm/entities/RefreshToken';
 import { UsersTableCreate1658098917317 } from './migrations/1658098917317-UsersTableCreate';
 import { RefreshUserTableCreate1662930564661 } from './migrations/1662930564661-RefreshUserTableCreate';
+import { AlterTableUserAddColumnAvatar1665334283485 } from './migrations/1665334283485-AlterTableUserAddColumnAvatar';
 
 export const dataSource = new DataSource({
     type: 'postgres',
@@ -18,5 +19,6 @@ export const dataSource = new DataSource({
     migrations: [
         UsersTableCreate1658098917317,
         RefreshUserTableCreate1662930564661,
+        AlterTableUserAddColumnAvatar1665334283485,
     ],
 });

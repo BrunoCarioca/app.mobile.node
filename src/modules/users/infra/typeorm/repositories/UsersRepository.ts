@@ -38,6 +38,11 @@ export class UsersRepository implements IUserRepository {
         return user;
     }
 
+    public async findById(id: number): Promise<IUser | null> {
+        const user = await this.ormRepository.findOneBy({ id });
+        return user;
+    }
+
     public async create({ email, name, password }: ICreateUser): Promise<IUser> {
         const user = await this.ormRepository.create({
             email,
@@ -50,8 +55,12 @@ export class UsersRepository implements IUserRepository {
         return user;
     }
 
-    public async updatePassword(user: IUser): Promise<IUser> {
+    public async save(user: IUser): Promise<IUser> {
         const updateUser = await this.ormRepository.save(user);
         return updateUser;
+    }
+
+    public async delete(id: number): Promise<void> {
+        await this.ormRepository.delete(id);
     }
 }
