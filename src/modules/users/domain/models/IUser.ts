@@ -1,3 +1,5 @@
+import { ICompaniesUsers } from '@modules/Companies/domain/models/ICompanyUser';
+
 export interface IUser {
     id: number;
     email: string;
@@ -8,4 +10,5 @@ export interface IUser {
     updated_at: Date;
     avatar: string;
     getAvatarUrl(): string | null;
+    companies_users: ICompaniesUsers[];
 }

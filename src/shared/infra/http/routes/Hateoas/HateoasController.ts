@@ -6,8 +6,7 @@ export class HateoasController {
         const baseUrl = 'http://localhost:3000/api/';
         const hateoas = new Hateoas();
 
-        hateoas.adicionaLink('POST', 'Adicionar um novo usuário', `${baseUrl}usuario`);
-
+        hateoas.adicionaLink('POST', 'Adicionar um novo usuário', `${baseUrl}user`);
         hateoas.adicionaLink(
             'POST',
             'Envia um email com um código aleatorio para o usuário',
@@ -21,18 +20,20 @@ export class HateoasController {
         );
 
         hateoas.adicionaLink('PATCH', 'Atualiza a senha do usuário', `${baseUrl}update-password`);
-
         hateoas.adicionaLink('POST', 'Atualiza o token', `${baseUrl}refresh-token`);
-
         hateoas.adicionaLink('POST', 'Realiza o login', `${baseUrl}login`);
-
         hateoas.adicionaLink(
             'PATCH',
             'Adicionar uma imagem de perfil ao usuário',
-            `${baseUrl}usuario/avatar`,
+            `${baseUrl}user/avatar`,
         );
 
-        hateoas.adicionaLink('GET', 'Lista de usuários', `${baseUrl}usuario`);
+        hateoas.adicionaLink('GET', 'Lista de usuários', `${baseUrl}user`);
+        hateoas.adicionaLink('PUT', 'Atualiza nome e email do usuário', `${baseUrl}user/id`);
+        hateoas.adicionaLink('DELETE', 'Deleta o usuário', `${baseUrl}user/id`);
+        hateoas.adicionaLink('GET', 'Recupa os dados de um usuário', `${baseUrl}user/id`);
+
+        hateoas.adicionaLink('POST', 'Cadastrar uma empresa', `${baseUrl}company`);
 
         return response.status(200).json(hateoas.links);
     }

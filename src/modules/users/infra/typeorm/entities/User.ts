@@ -1,9 +1,11 @@
+import { CompaniesUsers } from '@modules/Companies/infra/typeorm/entities/CompanyUser';
 import { IUser } from '@modules/users/domain/models/IUser';
 import { Exclude, Expose } from 'class-transformer';
 import {
     Column,
     CreateDateColumn,
     Entity,
+    OneToMany,
     PrimaryGeneratedColumn,
     UpdateDateColumn,
 } from 'typeorm';
@@ -34,6 +36,9 @@ export class User implements IUser {
 
     @Column()
     avatar: string;
+
+    @OneToMany(() => CompaniesUsers, companies_user => companies_user.user)
+    companies_users: CompaniesUsers[];
 
     @Expose({ name: 'avatar_url' })
     getAvatarUrl(): string | null {

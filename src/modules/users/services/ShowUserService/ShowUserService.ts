@@ -7,7 +7,7 @@ export class ShowUserService {
 
     public async execute(id: number) {
         const user = await this.userRepository.findById(id);
-        console.log(user);
+        //console.log(user);
 
         if (!user) {
             throw new AppError('User not exist.');

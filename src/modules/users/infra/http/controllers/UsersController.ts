@@ -49,7 +49,7 @@ export class UsersController {
     public async show(request: Request, response: Response) {
         const id = Number(request.params.id);
 
-        console.log(id);
+        //console.log(id);
         const usersRepository = new UsersRepository();
         const showUserService = new ShowUserService(usersRepository);
 
