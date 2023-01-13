@@ -34,6 +34,11 @@ export class HateoasController {
         hateoas.adicionaLink('GET', 'Recupa os dados de um usuário', `${baseUrl}user/id`);
 
         hateoas.adicionaLink('POST', 'Cadastrar uma empresa', `${baseUrl}company`);
+        hateoas.adicionaLink(
+            'GET',
+            'listar os usuários da empresa, apenas para membros da empresa',
+            `${baseUrl}company-users/companyId`,
+        );
 
         return response.status(200).json(hateoas.links);
     }
