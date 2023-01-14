@@ -7,7 +7,7 @@ export const companyUserRouter = Router();
 const companyUserController = new CompanyUserController();
 
 companyUserRouter.get(
-    '/:companyId',
+    '/:id',
     celebrate({
         [Segments.PARAMS]: {
             id: Joi.string().uuid().required(),
