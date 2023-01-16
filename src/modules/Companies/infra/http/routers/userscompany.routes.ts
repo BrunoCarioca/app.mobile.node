@@ -7,12 +7,26 @@ export const companyUserRouter = Router();
 const companyUserController = new CompanyUserController();
 
 companyUserRouter.get(
-    '/:id',
+    '/:companyId',
     celebrate({
         [Segments.PARAMS]: {
-            id: Joi.string().uuid().required(),
+            companyId: Joi.string().uuid().required(),
         },
     }),
     isAuthenticated,
-    companyUserController.listUserCompany,
+    companyUserController.listUsersCompany,
+);
+
+companyUserRouter.post(
+    '/:companyId',
+    celebrate({
+        [Segments.PARAMS]: {
+            companyId: Joi.string().uuid().required(),
+        },
+        [Segments.BODY]: {
+            newUserId: Joi.number().required(),
+        },
+    }),
+    isAuthenticated,
+    companyUserController.addUserToCompany,
 );

@@ -4,6 +4,7 @@ import { ICompaniesUsers } from '../models/ICompanyUser';
 
 export interface ICompaniesToUsersRepository {
     findByUserId(id: number): Promise<ICompaniesUsers | null>;
+    findCompaniesByUserId(id: number): Promise<ICompaniesUsers[] | null>;
     findByCompanyId(id: string): Promise<ICompaniesUsers | null>;
     findByCompanyIdAndUserId(userId: number, companyId: string): Promise<ICompaniesUsers | null>;
     findUsersByCompanyId(id: string): Promise<ICompaniesUsers[] | null>;

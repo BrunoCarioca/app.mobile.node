@@ -80,6 +80,26 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         return companiesUsers;
     }
 
+    public async findCompaniesByUserId(id: number): Promise<ICompaniesUsers[] | null> {
+        const companiesUsers = await this.ormRepository.find({
+            select: {
+                role_user: false,
+                created_at: false,
+                updated_at: false,
+            },
+            relations: {
+                company: true,
+            },
+            where: {
+                user: {
+                    id: id,
+                },
+            },
+        });
+
+        return companiesUsers;
+    }
+
     public async save(companies_users: ICompaniesUsers): Promise<ICompaniesUsers> {
         const updateCompaniesUser = await this.ormRepository.save(companies_users);
         return updateCompaniesUser;
