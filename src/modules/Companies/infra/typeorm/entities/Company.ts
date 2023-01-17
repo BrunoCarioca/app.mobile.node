@@ -1,4 +1,5 @@
 import { ICompany } from '@modules/Companies/domain/models/ICompany';
+import { Project } from '@modules/projects/infra/typeorm/entities/project';
 import {
     Column,
     CreateDateColumn,
@@ -34,4 +35,7 @@ export class Company implements ICompany {
 
     @OneToMany(() => CompaniesUsers, companies_user => companies_user.company)
     companies_users: CompaniesUsers[];
+
+    @OneToMany(() => Project, project => project.company_id)
+    projects: Project[];
 }

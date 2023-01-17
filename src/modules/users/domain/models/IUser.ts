@@ -1,4 +1,5 @@
 import { ICompaniesUsers } from '@modules/Companies/domain/models/ICompanyUser';
+import { IProjectsUsers } from '@modules/projects/domain/models/IProjectsUsers';
 
 export interface IUser {
     id: number;
@@ -11,4 +12,5 @@ export interface IUser {
     avatar: string;
     getAvatarUrl(): string | null;
     companies_users: ICompaniesUsers[];
+    projects_users: IProjectsUsers[];
 }
