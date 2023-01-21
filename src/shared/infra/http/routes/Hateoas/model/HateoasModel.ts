@@ -1,7 +1,4 @@
-import {
-    HateoasClassInterface,
-    HateoasInterface,
-} from './HateoasModelInterface';
+import { HateoasClassInterface, HateoasInterface } from './HateoasModelInterface';
 
 class Hateoas implements HateoasClassInterface {
     public links: HateoasInterface[] = [];

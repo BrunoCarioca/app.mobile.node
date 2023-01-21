@@ -36,6 +36,6 @@ export class Company implements ICompany {
     @OneToMany(() => CompaniesUsers, companies_user => companies_user.company)
     companies_users: CompaniesUsers[];
 
-    @OneToMany(() => Project, project => project.company_id)
+    @OneToMany(() => Project, project => project.company)
     projects: Project[];
 }

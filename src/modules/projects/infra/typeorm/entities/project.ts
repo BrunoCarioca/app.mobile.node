@@ -4,6 +4,7 @@ import {
     Column,
     CreateDateColumn,
     Entity,
+    JoinColumn,
     ManyToOne,
     OneToMany,
     PrimaryGeneratedColumn,
@@ -32,7 +33,8 @@ export class Project implements IProject {
     updated_at: Date;
 
     @ManyToOne(() => Company, company => company.projects)
-    company_id: string;
+    @JoinColumn({ name: 'company_id' })
+    company: Company;
 
     @OneToMany(() => ProjectsUsers, projects_users => projects_users.project)
     projects_users: ProjectsUsers[];
