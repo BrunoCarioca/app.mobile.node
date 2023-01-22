@@ -28,7 +28,7 @@ export class ProjectRepository implements IProjectRepository {
             .createQueryBuilder()
             .where('company_id = :id', { id: company_id })
             .skip(skip)
-            .take()
+            .take(take)
             .getManyAndCount();
 
         const result = {
