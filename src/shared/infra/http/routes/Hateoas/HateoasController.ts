@@ -78,6 +78,16 @@ export class HateoasController {
             links: hateoasLinks.links,
         });
         /******************************************************* */
+        /**Links Projects */
+        hateoasLinks.links = [];
+
+        hateoasLinks.adicionaLink('POST', 'Cadastrar um novo projeto', `${baseUrl}project`);
+
+        hateoas.push({
+            key: 'Projects',
+            links: hateoasLinks.links,
+        });
+        /******************************************************* */
 
         return response.status(200).json(hateoas);
         //hateoasLinks.adicionaLink('POST', 'Atualiza o token', `${baseUrl}refresh-token`);

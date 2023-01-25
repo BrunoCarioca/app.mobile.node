@@ -1,4 +1,5 @@
 import {
+    ICreateManyProjectsUsers,
     ICreateProjectsUsers,
     IProjectsUsers,
 } from '@modules/projects/domain/models/IProjectsUsers';
@@ -25,6 +26,20 @@ export class ProjectsUsersRepository implements IProjectUsersReposity {
         });
 
         await this.ormRepository.save(project_user);
+    }
+
+    public async createMany({ users, project }: ICreateManyProjectsUsers): Promise<void> {
+        const projects_users = await Promise.all(
+            users.map(
+                async user =>
+                    await this.ormRepository.create({
+                        user,
+                        project,
+                    }),
+            ),
+        );
+
+        await this.ormRepository.save(projects_users);
     }
 
     public async save(projectUsers: IProjectsUsers): Promise<void> {

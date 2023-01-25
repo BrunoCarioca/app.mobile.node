@@ -1,4 +1,8 @@
-import { ICreateProjectsUsers, IProjectsUsers } from '../models/IProjectsUsers';
+import {
+    ICreateManyProjectsUsers,
+    ICreateProjectsUsers,
+    IProjectsUsers,
+} from '../models/IProjectsUsers';
 
 export interface IPaginateProjectUser {
     per_page: number;
@@ -18,6 +22,7 @@ export interface IProjectUsersReposity {
     findByProjectID(id: string): Promise<IProjectsUsers[] | null>;
     findAll({ page, skip, take }: SearchParams): Promise<IPaginateProjectUser>;
     create({ user, project }: ICreateProjectsUsers): Promise<void>;
+    createMany({ users, project }: ICreateManyProjectsUsers): Promise<void>;
     save(projectUsers: IProjectsUsers): Promise<void>;
     delete(id: number): Promise<void>;
 }

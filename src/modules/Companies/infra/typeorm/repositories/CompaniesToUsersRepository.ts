@@ -3,7 +3,7 @@ import { ICompaniesUsers } from '@modules/Companies/domain/models/ICompanyUser';
 import { ICompaniesToUsersRepository } from '@modules/Companies/domain/repositories/ICompaniesToUsersRepository';
 import { IUser } from '@modules/users/domain/models/IUser';
 import { dataSource } from '@shared/infra/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CompaniesUsers } from '../entities/CompanyUser';
 
 export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
@@ -67,9 +67,35 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         companyId: string,
     ): Promise<ICompaniesUsers | null> {
         const companiesUsers = await this.ormRepository.findOne({
+            relations: {
+                company: true,
+                user: true,
+            },
             where: {
                 user: {
                     id: userId,
+                },
+                company: {
+                    id: companyId,
+                },
+            },
+        });
+
+        return companiesUsers;
+    }
+
+    public async findAllByCompanyIdAndUserId(
+        usersId: number[],
+        companyId: string,
+    ): Promise<ICompaniesUsers[]> {
+        const companiesUsers = await this.ormRepository.find({
+            relations: {
+                company: true,
+                user: true,
+            },
+            where: {
+                user: {
+                    id: In(usersId),
                 },
                 company: {
                     id: companyId,

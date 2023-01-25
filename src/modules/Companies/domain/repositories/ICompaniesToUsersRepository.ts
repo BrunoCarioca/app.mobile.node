@@ -7,6 +7,7 @@ export interface ICompaniesToUsersRepository {
     findCompaniesByUserId(id: number): Promise<ICompaniesUsers[] | null>;
     findByCompanyId(id: string): Promise<ICompaniesUsers | null>;
     findByCompanyIdAndUserId(userId: number, companyId: string): Promise<ICompaniesUsers | null>;
+    findAllByCompanyIdAndUserId(userId: number[], companyId: string): Promise<ICompaniesUsers[]>;
     findUsersByCompanyId(id: string): Promise<ICompaniesUsers[] | null>;
     create(user: IUser, company: ICompany, role_user: number): Promise<ICompaniesUsers>;
     save(companies_users: ICompaniesUsers): Promise<ICompaniesUsers>;

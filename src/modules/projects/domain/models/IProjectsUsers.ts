@@ -15,3 +15,8 @@ export interface ICreateProjectsUsers {
     user: IUser;
     project: IProject;
 }
+
+export interface ICreateManyProjectsUsers {
+    users: IUser[];
+    project: IProject;
+}

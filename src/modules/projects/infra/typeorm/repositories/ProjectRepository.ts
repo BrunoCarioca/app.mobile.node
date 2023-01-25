@@ -61,7 +61,7 @@ export class ProjectRepository implements IProjectRepository {
         return project;
     }
 
-    public async create({ name, admin, description, company }: ICreateProject): Promise<void> {
+    public async create({ name, admin, description, company }: ICreateProject): Promise<IProject> {
         const project = await this.ormRepository.create({
             name,
             company,
@@ -70,6 +70,8 @@ export class ProjectRepository implements IProjectRepository {
         });
 
         await this.ormRepository.save(project);
+
+        return project;
     }
 
     public async save(project: IProject): Promise<void> {
