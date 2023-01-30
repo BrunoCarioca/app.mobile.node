@@ -81,7 +81,11 @@ export class HateoasController {
         /**Links Projects */
         hateoasLinks.links = [];
 
-        hateoasLinks.adicionaLink('POST', 'Cadastrar um novo projeto', `${baseUrl}project`);
+        hateoasLinks.adicionaLink('GET', 'Listar projetos do usuario', `${baseUrl}projects`);
+        hateoasLinks.adicionaLink('GET', 'Show projeto', `${baseUrl}projects/id`);
+        hateoasLinks.adicionaLink('POST', 'Cadastrar um novo projeto', `${baseUrl}projects`);
+        hateoasLinks.adicionaLink('PUT', 'Atualizar projeto', `${baseUrl}projects`);
+        hateoasLinks.adicionaLink('DELETE', 'Deleta projeto', `${baseUrl}projects`);
 
         hateoas.push({
             key: 'Projects',

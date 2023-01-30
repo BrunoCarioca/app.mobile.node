@@ -96,4 +96,25 @@ export class ProjectsUsersRepository implements IProjectUsersReposity {
 
         return projects_users;
     }
+
+    public async findByUserIdAndProjectId(
+        userId: number,
+        projectId: string,
+    ): Promise<IProjectsUsers | null> {
+        const projects_users = await this.ormRepository.findOne({
+            relations: {
+                project: true,
+            },
+            where: {
+                user: {
+                    id: userId,
+                },
+                project: {
+                    id: projectId,
+                },
+            },
+        });
+
+        return projects_users;
+    }
 }

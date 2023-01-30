@@ -4,20 +4,57 @@ import { Router } from 'express';
 import { ProjectController } from '../controllers/ProjectController';
 
 export const projectRouters = Router();
-const projecController = new ProjectController();
+const projectController = new ProjectController();
 
 projectRouters.post(
-    '/:companyId',
+    '/',
     celebrate({
-        [Segments.PARAMS]: {
-            companyId: Joi.string().required().uuid(),
-        },
         [Segments.BODY]: {
             name: Joi.string().required().min(3),
             description: Joi.string().required().min(3).max(255),
             users: Joi.array().items(Joi.number()),
+            companyId: Joi.string().required().uuid(),
         },
     }),
     isAuthenticated,
-    projecController.create,
+    projectController.create,
+);
+
+projectRouters.get(
+    '/:projectId',
+    celebrate({
+        [Segments.PARAMS]: {
+            projectId: Joi.string().required().uuid(),
+        },
+    }),
+    isAuthenticated,
+    projectController.show,
+);
+
+projectRouters.get('/', isAuthenticated, projectController.list);
+
+projectRouters.put(
+    '/:projectId',
+    celebrate({
+        [Segments.BODY]: {
+            name: Joi.string().min(3).max(255),
+            description: Joi.string().min(3).max(255),
+        },
+        [Segments.PARAMS]: {
+            projectId: Joi.string().required().uuid(),
+        },
+    }),
+    isAuthenticated,
+    projectController.update,
+);
+
+projectRouters.delete(
+    '/:projectId',
+    celebrate({
+        [Segments.PARAMS]: {
+            projectId: Joi.string().required().uuid(),
+        },
+    }),
+    isAuthenticated,
+    projectController.delete,
 );

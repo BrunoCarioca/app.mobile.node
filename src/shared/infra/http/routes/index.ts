@@ -13,7 +13,7 @@ import { HateoasController } from './Hateoas/HateoasController';
 export const routes = Router();
 const hateoas = new HateoasController();
 
-routes.use('/api/user', userRouters);
+routes.use('/api/users', userRouters);
 routes.use('/api/login', sessionRouters);
 routes.use('/api/refresh-token', refreshRouters);
 routes.use('/api/forgot-password', forgotPasswordRouter);
@@ -21,6 +21,6 @@ routes.use('/api/update-password', updatePasswordRouter);
 routes.use('/api/company', companyRouter);
 routes.use('/api/company-users', companyUserRouter);
 routes.use('/api/user-companies', userCompanyRouter);
-routes.use('/api/project', projectRouters);
+routes.use('/api/projects', projectRouters);
 
 routes.get('/api', hateoas.index);

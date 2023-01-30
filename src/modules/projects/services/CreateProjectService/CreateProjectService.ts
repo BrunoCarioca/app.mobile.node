@@ -1,8 +1,8 @@
 import { ICompaniesToUsersRepository } from '@modules/Companies/domain/repositories/ICompaniesToUsersRepository';
+import { IProjectRepository } from '@modules/projects/domain/repositories/IProjectReposity';
+import { IProjectUsersReposity } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import { IUser } from '@modules/users/domain/models/IUser';
 import AppError from '@shared/errors/AppError';
-import { IProjectRepository } from '../domain/repositories/IProjectReposity';
-import { IProjectUsersReposity } from '../domain/repositories/IProjectUsersReposity';
 
 interface ICreateProjectService {
     name: string;
