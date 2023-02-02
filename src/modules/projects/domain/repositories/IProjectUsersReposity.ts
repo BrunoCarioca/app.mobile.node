@@ -20,10 +20,12 @@ export type SearchParams = {
 export interface IProjectUsersReposity {
     findByUserIdAndProjectId(userId: number, projectId: string): Promise<IProjectsUsers | null>;
     findByUserID(id: number): Promise<IProjectsUsers[] | null>;
+    findByUserAllIdsProjectId(ids: number[], projectId: string): Promise<IProjectsUsers[] | null>;
     findByProjectID(id: string): Promise<IProjectsUsers[] | null>;
     findAll({ page, skip, take }: SearchParams): Promise<IPaginateProjectUser>;
     create({ user, project }: ICreateProjectsUsers): Promise<void>;
     createMany({ users, project }: ICreateManyProjectsUsers): Promise<void>;
     save(projectUsers: IProjectsUsers): Promise<void>;
     delete(id: number): Promise<void>;
+    deleteUsers(ids: number[]): Promise<void>;
 }

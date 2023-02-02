@@ -9,7 +9,7 @@ import {
     SearchParams,
 } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import { dataSource } from '@shared/infra/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { ProjectsUsers } from '../entities/ProjectUser';
 
 export class ProjectsUsersRepository implements IProjectUsersReposity {
@@ -116,5 +116,35 @@ export class ProjectsUsersRepository implements IProjectUsersReposity {
         });
 
         return projects_users;
+    }
+
+    public async findByUserAllIdsProjectId(
+        ids: number[],
+        projectId: string,
+    ): Promise<IProjectsUsers[] | null> {
+        const projectUsers = await this.ormRepository.find({
+            select: {
+                user: {
+                    id: true,
+                },
+            },
+            relations: {
+                user: true,
+            },
+            where: {
+                user: {
+                    id: In(ids),
+                },
+                project: {
+                    id: projectId,
+                },
+            },
+        });
+
+        return projectUsers;
+    }
+
+    public async deleteUsers(ids: number[]): Promise<void> {
+        await this.ormRepository.delete(ids);
     }
 }

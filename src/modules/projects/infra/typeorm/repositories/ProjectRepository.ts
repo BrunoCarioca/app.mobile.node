@@ -43,6 +43,9 @@ export class ProjectRepository implements IProjectRepository {
 
     public async findByID(id: string): Promise<IProject | null> {
         const project = await this.ormRepository.findOne({
+            relations: {
+                company: true,
+            },
             where: {
                 id,
             },
