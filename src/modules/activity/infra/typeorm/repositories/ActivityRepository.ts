@@ -8,7 +8,6 @@ import {
     SearchParams,
 } from '@modules/activity/domain/repository/IActivityRepository';
 import { Project } from '@modules/projects/infra/typeorm/entities/project';
-import { User } from '@modules/users/infra/typeorm/entities/User';
 import { dataSource } from '@shared/infra/typeorm';
 import { Repository } from 'typeorm';
 import Activity from '../entities/Activity';
@@ -46,8 +45,15 @@ export class ActivityRepository implements IActivityRepository {
         await this.ormRepository.delete(id);
     }
 
-    public async findById(id: number): Promise<IActivity | null> {
-        const activity = await this.ormRepository.findOneBy({ id });
+    public async findById(id: number, userId: number): Promise<IActivity | null> {
+        const activity = await this.ormRepository.findOne({
+            where: {
+                id: id,
+                user: {
+                    id: userId,
+                },
+            },
+        });
         return activity;
     }
 
@@ -74,11 +80,11 @@ export class ActivityRepository implements IActivityRepository {
 
     public async findByUser(
         { page, skip, take }: SearchParams,
-        user: User,
+        userId: number,
     ): Promise<IPaginateActivity> {
         const [activities, count] = await this.ormRepository
             .createQueryBuilder()
-            .where('id_user = :id', { id: user.id })
+            .where('id_user = :id', { id: userId })
             .skip(skip)
             .take(take)
             .getManyAndCount();
