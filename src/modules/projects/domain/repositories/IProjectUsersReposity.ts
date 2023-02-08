@@ -17,7 +17,7 @@ export type SearchParams = {
     take: number;
 };
 
-export interface IProjectUsersReposity {
+export interface IProjectUsersRepository {
     findByUserIdAndProjectId(userId: number, projectId: string): Promise<IProjectsUsers | null>;
     findByUserID(id: number): Promise<IProjectsUsers[] | null>;
     findByUserAllIdsProjectId(ids: number[], projectId: string): Promise<IProjectsUsers[] | null>;

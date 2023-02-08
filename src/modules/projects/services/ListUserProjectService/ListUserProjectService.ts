@@ -1,4 +1,4 @@
-import { IProjectUsersReposity } from '@modules/projects/domain/repositories/IProjectUsersReposity';
+import { IProjectUsersRepository } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import AppError from '@shared/errors/AppError';
 
 interface IListUserProjectService {
@@ -15,7 +15,7 @@ interface IReturn {
 }
 
 export class ListUserProjectService {
-    constructor(private projectUsersRepository: IProjectUsersReposity) {}
+    constructor(private projectUsersRepository: IProjectUsersRepository) {}
 
     public async execute({ userId, projectId }: IListUserProjectService): Promise<IReturn[]> {
         const userInProject = await this.projectUsersRepository.findByUserIdAndProjectId(

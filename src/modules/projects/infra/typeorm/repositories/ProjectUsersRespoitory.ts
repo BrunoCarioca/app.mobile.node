@@ -5,14 +5,14 @@ import {
 } from '@modules/projects/domain/models/IProjectsUsers';
 import {
     IPaginateProjectUser,
-    IProjectUsersReposity,
+    IProjectUsersRepository,
     SearchParams,
 } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import { dataSource } from '@shared/infra/typeorm';
 import { In, Repository } from 'typeorm';
 import { ProjectsUsers } from '../entities/ProjectUser';
 
-export class ProjectsUsersRepository implements IProjectUsersReposity {
+export class ProjectsUsersRepository implements IProjectUsersRepository {
     private ormRepository: Repository<ProjectsUsers>;
 
     constructor() {
@@ -104,6 +104,7 @@ export class ProjectsUsersRepository implements IProjectUsersReposity {
         const projects_users = await this.ormRepository.findOne({
             relations: {
                 project: true,
+                user: true,
             },
             where: {
                 user: {

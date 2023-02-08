@@ -37,11 +37,12 @@ export class UsersController {
     public async update(request: Request, response: Response) {
         const { email, name } = request.body;
         const id = Number(request.params.id);
+        const userLoginId = Number(request.user.id);
 
         const usersRepository = new UsersRepository();
         const updateUserService = new UpdateUserService(usersRepository);
 
-        const user = await updateUserService.execute(id, name, email);
+        const user = await updateUserService.execute(id, name, email, userLoginId);
 
         return response.status(200).json(user);
     }

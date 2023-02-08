@@ -1,4 +1,4 @@
-import { IProjectUsersReposity } from '@modules/projects/domain/repositories/IProjectUsersReposity';
+import { IProjectUsersRepository } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import AppError from '@shared/errors/AppError';
 
 interface IRemoveUsersParams {
@@ -8,7 +8,7 @@ interface IRemoveUsersParams {
 }
 
 export class RemoveUsersInProjectService {
-    constructor(private projectUsersRepository: IProjectUsersReposity) {}
+    constructor(private projectUsersRepository: IProjectUsersRepository) {}
 
     public async execute({ userId, projectId, users }: IRemoveUsersParams): Promise<void> {
         const userAndProjectExist = await this.projectUsersRepository.findByUserIdAndProjectId(

@@ -113,4 +113,23 @@ export class ActivityRepository implements IActivityRepository {
 
         return result;
     }
+
+    public async findByUserIdProjectIdStatus(
+        userId: number,
+        projectId: string,
+    ): Promise<IActivity | null> {
+        const activity = await this.ormRepository.findOne({
+            where: {
+                user: {
+                    id: userId,
+                },
+                project: {
+                    id: projectId,
+                },
+                status: false,
+            },
+        });
+
+        return activity;
+    }
 }

@@ -11,7 +11,7 @@ import {
     UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('Activities')
+@Entity('activities')
 class Activity implements IActivity {
     @PrimaryGeneratedColumn('increment')
     id: number;

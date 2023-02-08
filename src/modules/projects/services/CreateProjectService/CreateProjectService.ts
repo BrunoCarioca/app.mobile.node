@@ -1,6 +1,6 @@
 import { ICompaniesToUsersRepository } from '@modules/Companies/domain/repositories/ICompaniesToUsersRepository';
 import { IProjectRepository } from '@modules/projects/domain/repositories/IProjectReposity';
-import { IProjectUsersReposity } from '@modules/projects/domain/repositories/IProjectUsersReposity';
+import { IProjectUsersRepository } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import { IUser } from '@modules/users/domain/models/IUser';
 import AppError from '@shared/errors/AppError';
 
@@ -15,7 +15,7 @@ interface ICreateProjectService {
 export class CreateProjectService {
     constructor(
         private projectsRepository: IProjectRepository,
-        private projectUserRepository: IProjectUsersReposity,
+        private projectUserRepository: IProjectUsersRepository,
         private usersCompanyRespository: ICompaniesToUsersRepository,
     ) {}
 

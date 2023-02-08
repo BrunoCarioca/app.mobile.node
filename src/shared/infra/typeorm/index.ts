@@ -6,6 +6,7 @@ import { CompaniesUsers } from '@modules/Companies/infra/typeorm/entities/Compan
 import RefreshToken from '@modules/users/infra/typeorm/entities/RefreshToken';
 import { User } from '@modules/users/infra/typeorm/entities/User';
 /**Migrations*/
+import Activity from '@modules/activity/infra/typeorm/entities/Activity';
 import { Project } from '@modules/projects/infra/typeorm/entities/project';
 import { ProjectsUsers } from '@modules/projects/infra/typeorm/entities/ProjectUser';
 import { UsersTableCreate1658098917317 } from './migrations/1658098917317-UsersTableCreate';
@@ -24,7 +25,7 @@ export const dataSource = new DataSource({
     username: process.env.APP_POSTGRES_USERNAME,
     password: process.env.APP_POSTGRES_PASSWORD,
     database: process.env.APP_POSTGRES_DATABASE,
-    entities: [User, RefreshToken, Company, CompaniesUsers, Project, ProjectsUsers],
+    entities: [User, RefreshToken, Company, CompaniesUsers, Project, ProjectsUsers, Activity],
     migrations: [
         UsersTableCreate1658098917317,
         RefreshUserTableCreate1662930564661,

@@ -14,6 +14,7 @@ export interface IActivityRepository {
     findByProject({ page, skip, take }: SearchParams, project: Project): Promise<IPaginateActivity>;
     findByUser({ page, skip, take }: SearchParams, user: User): Promise<IPaginateActivity>;
     findByStatus({ page, skip, take }: SearchParams, status: boolean): Promise<IPaginateActivity>;
+    findByUserIdProjectIdStatus(userId: number, projectId: string): Promise<IActivity | null>;
     create({ activity, description, project, status, user }: IActivityCreate): Promise<void>;
     delete(id: number): Promise<void>;
     save(activity: IActivity): Promise<void>;
