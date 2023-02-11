@@ -31,28 +31,3 @@ services:
         container_name: api-app-mobile-redis-tcc
         environment:
             - ALLOW_EMPTY_PASSWORD=yes
-
-    mongo:
-        image: mongo:6.0
-        restart: always
-        container_name: api-app-mobile-mongo-tcc
-        volumes:
-            - .docker/mongo/db:/data/db
-            - .docker/mongo/config:/data/configdb
-        environment:
-            MONGO_INITDB_DATABASE: ${APP_MONGO_NAME}
-            MONGO_INITDB_ROOT_USERNAME: ${APP_MONGO_USER}
-            MONGO_INITDB_ROOT_PASSWORD: ${APP_MONGO_PASS}
-
-    mongo-express:
-        image: mongo-express
-        restart: always
-        ports:
-            - ${APP_MONGO_EXPRESS_PORT}:8081
-        environment:
-            ME_CONFIG_BASICAUTH_USERNAME: bruno
-            ME_CONFIG_BASICAUTH_PASSWORD: mongo
-            ME_CONFIG_MONGODB_PORT: 27017
-            ME_CONFIG_MONGODB_ADMINUSERNAME: ${APP_MONGO_EXPRESS_USER}
-            ME_CONFIG_MONGODB_ADMINPASSWORD: ${APP_MONGO_EXPRESS_PASSWORD}
-            ME_CONFIG_MONGODB_URL: 'mongodb://${APP_MONGO_USER}:${APP_MONGO_PASS}@api-app-mobile-mongo-tcc:${APP_MONGO_PORT}/'

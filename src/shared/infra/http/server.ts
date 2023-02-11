@@ -5,7 +5,7 @@ import { app } from './app';
 
 dataSource
     .initialize()
-    .then(() => {
+    .then(async () => {
         app.listen(process.env.APP_PORT || 3000, () => {
             console.log(`Servidor rodando na porta http://localhost:${process.env.APP_PORT} !`);
         });
