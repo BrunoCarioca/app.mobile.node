@@ -12,7 +12,7 @@ projectRouters.post(
         [Segments.BODY]: {
             name: Joi.string().required().min(3),
             description: Joi.string().required().min(3).max(255),
-            users: Joi.array().items(Joi.number()),
+            users: Joi.array().required().items(Joi.number()),
             companyId: Joi.string().required().uuid(),
         },
     }),
