@@ -35,7 +35,6 @@ export class CompanyCreateService {
         }
 
         const companyExist = await this.companyRepository.findByCnpjCpf(cnpj_cpf);
-        //console.log(companyExist);
 
         if (companyExist) {
             throw new AppError('Company already exist');

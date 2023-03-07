@@ -11,13 +11,11 @@ export class AddUserCompanyService {
     ) {}
 
     public async execute(userId: number, companyId: string, newUserId: number) {
-        //console.table({ userId, companyId, newUserId });
         const companies_users = await this.companiesUsersRepository.findByCompanyIdAndUserId(
             userId,
             companyId,
         );
 
-        //console.table(companies_users);
 
         if (!companies_users) {
             throw new AppError('User not In company!');
@@ -37,7 +35,6 @@ export class AddUserCompanyService {
             newUserId,
             companyId,
         );
-        //console.table(companies_users_exist);
 
         if (companies_users_exist) {
             throw new AppError('User already join the company');

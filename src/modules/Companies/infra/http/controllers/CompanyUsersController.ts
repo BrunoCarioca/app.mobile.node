@@ -22,7 +22,6 @@ export class CompanyUserController {
         const userId = Number(request.user.id);
         const { companyId } = request.params;
         const { newUserId } = request.body;
-        //console.log(newUserId);
 
         const usersRepository = new UsersRepository();
         const companyRepository = new CompanyRepository();

@@ -17,6 +17,7 @@ export class CraeteReportTable1676156490588 implements MigrationInterface {
                     {
                         name: 'activityId',
                         type: 'int',
+                        isUnique: true,
                     },
                     {
                         name: 'report',

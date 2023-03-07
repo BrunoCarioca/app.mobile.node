@@ -21,7 +21,6 @@ export class ActivityCreateService {
         projectId,
         userId,
     }: IActivityCreateService): Promise<void> {
-        console.table({ activity, description, projectId, userId });
 
         const projectUser = await this.projectUsersRepository.findByUserIdAndProjectId(
             userId,

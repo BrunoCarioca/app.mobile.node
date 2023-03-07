@@ -44,12 +44,12 @@ export class ActivityCreateTable1673912001222 implements MigrationInterface {
                     },
                     {
                         name: 'end',
-                        type: 'time without time zone',
+                        type: 'timestamp with time zone',
                         isNullable: true,
                     },
                     {
                         name: 'created_at',
-                        type: 'time with time zone',
+                        type: 'timestamp with time zone',
                         default: 'now()',
                     },
                     {

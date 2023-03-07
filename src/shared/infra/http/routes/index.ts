@@ -1,4 +1,5 @@
 import { activityRouter } from '@modules/activity/infra/http/routes/activity.routes';
+import { reportRouter } from '@modules/activity/infra/http/routes/report.routes';
 import { companyRouter } from '@modules/Companies/infra/http/routers/companies.routes';
 import { userCompanyRouter } from '@modules/Companies/infra/http/routers/companyusers.routes';
 import { companyUserRouter } from '@modules/Companies/infra/http/routers/userscompany.routes';
@@ -24,7 +25,8 @@ routes.use('/api/company', companyRouter);
 routes.use('/api/company-users', companyUserRouter);
 routes.use('/api/user-companies', userCompanyRouter);
 routes.use('/api/projects', projectRouters);
-routes.use('/api/user-project', usersProjectRouter);
-routes.use('/api/activities', activityRouter)
+routes.use('/api/user-projects', usersProjectRouter);
+routes.use('/api/activities', activityRouter);
+routes.use('/api/reports', reportRouter);
 
 routes.get('/api', hateoas.index);
