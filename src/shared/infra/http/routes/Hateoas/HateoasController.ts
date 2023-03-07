@@ -92,6 +92,52 @@ export class HateoasController {
             links: hateoasLinks.links,
         });
         /******************************************************* */
+        /**Links Users Projects */
+        hateoasLinks.links = [];
+
+        hateoasLinks.adicionaLink(
+            'GET',
+            'Listar usuarios no projeto',
+            `${baseUrl}user-projects/id`,
+        );
+        hateoasLinks.adicionaLink(
+            'POST',
+            'Adiciona usuarios no projeto',
+            `${baseUrl}user-projects/id`,
+        );
+        hateoasLinks.adicionaLink(
+            'Delete',
+            'Remover usuarios no projeto',
+            `${baseUrl}user-projects/id`,
+        );
+
+        hateoas.push({
+            key: 'Projects',
+            links: hateoasLinks.links,
+        });
+        /******************************************************* */
+        /**Links activities */
+        hateoasLinks.links = [];
+
+        hateoasLinks.adicionaLink('GET', 'Lista atividades do usuário', `${baseUrl}activities`);
+        hateoasLinks.adicionaLink('GET', 'Mostrar atividade do usuário', `${baseUrl}activities/id`);
+        hateoasLinks.adicionaLink('POST', 'Criar uma atividade', `${baseUrl}activities`);
+        hateoasLinks.adicionaLink('Delete', 'Deletar ativdade', `${baseUrl}activities/id`);
+
+        hateoas.push({
+            key: 'activities',
+            links: hateoasLinks.links,
+        });
+        /******************************************************* */
+        /**Links Users reports */
+        hateoasLinks.links = [];
+        hateoasLinks.adicionaLink('POST', 'Criar uma Relatoria da atividade', `${baseUrl}reports`);
+
+        hateoas.push({
+            key: 'reports',
+            links: hateoasLinks.links,
+        });
+        /******************************************************* */
 
         return response.status(200).json(hateoas);
         //hateoasLinks.adicionaLink('POST', 'Atualiza o token', `${baseUrl}refresh-token`);
