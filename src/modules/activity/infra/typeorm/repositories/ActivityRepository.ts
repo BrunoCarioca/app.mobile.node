@@ -57,6 +57,20 @@ export class ActivityRepository implements IActivityRepository {
         return activity;
     }
 
+    public async findByIdRelentions(id: number): Promise<IActivity | null> {
+        const activity = await this.ormRepository.findOne({
+            relations: {
+                project: true,
+                user: true,
+            },
+            where: {
+                id: id,
+            },
+        });
+
+        return activity;
+    }
+
     public async findByProject(
         { page, skip, take }: SearchParams,
         project: Project,

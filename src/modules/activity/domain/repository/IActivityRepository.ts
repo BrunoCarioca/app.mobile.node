@@ -10,6 +10,7 @@ export type SearchParams = {
 export interface IActivityRepository {
     //findAll({ page, skip, take }: SearchParams): Promise<IPaginateActivity>;
     findById(id: number, userId: number): Promise<IActivity | null>;
+    findByIdRelentions(id: number): Promise<IActivity | null>;
     findByProject({ page, skip, take }: SearchParams, project: Project): Promise<IPaginateActivity>;
     findByUser({ page, skip, take }: SearchParams, userId: number): Promise<IPaginateActivity>;
     findByStatus({ page, skip, take }: SearchParams, status: boolean): Promise<IPaginateActivity>;

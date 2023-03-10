@@ -1,4 +1,6 @@
 import { CreateReportService } from '@modules/activity/services/CreateReportService/CreateReportService';
+import { ShowReportService } from '@modules/activity/services/ShowReportService/ShowReportService';
+import { ProjectsUsersRepository } from '@modules/projects/infra/typeorm/repositories/ProjectUsersRespoitory';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { Request, Response } from 'express';
 import { ActivityRepository } from '../../typeorm/repositories/ActivityRepository';
@@ -22,5 +24,23 @@ export class ReportsController {
         await createReportService.execute({ activity, report, userLoginId, end });
 
         return response.status(200).json([]);
+    }
+
+    public async show(request: Request, response: Response): Promise<Response> {
+        const activityId = Number(request.params.activityId);
+        const userLoginId = Number(request.user.id);
+
+        const projectUsersRepository = new ProjectsUsersRepository();
+        const reportRepository = new ReportRepository();
+        const activityRepository = new ActivityRepository();
+
+        const showReportService = new ShowReportService(
+            projectUsersRepository,
+            reportRepository,
+            activityRepository,
+        );
+        const report = await showReportService.execute(activityId, userLoginId);
+
+        return response.status(200).json(report);
     }
 }

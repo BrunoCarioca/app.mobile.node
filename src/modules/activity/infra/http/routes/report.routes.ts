@@ -24,3 +24,14 @@ reportRouter.post(
     isAuthenticated,
     reportsController.create,
 );
+
+reportRouter.get(
+    '/:activityId',
+    celebrate({
+        [Segments.PARAMS]: {
+            activityId: Joi.number().required(),
+        },
+    }),
+    isAuthenticated,
+    reportsController.show
+);
