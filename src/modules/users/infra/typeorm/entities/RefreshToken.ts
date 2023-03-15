@@ -22,11 +22,8 @@ class RefreshToken implements IRefreshToken {
     @JoinColumn()
     user: User;
 
-    @CreateDateColumn()
-    created_at: Date;
-
-    @UpdateDateColumn()
-    updated_at: Date;
+    @Column()
+    token: string;
 }
 
 export default RefreshToken;

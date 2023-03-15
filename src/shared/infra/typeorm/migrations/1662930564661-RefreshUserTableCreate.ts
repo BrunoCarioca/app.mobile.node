@@ -18,20 +18,19 @@ export class RefreshUserTableCreate1662930564661 implements MigrationInterface {
                     {
                         name: 'expiresIn',
                         type: 'int',
+                        isNullable: false,
                     },
                     {
                         name: 'userId',
                         type: 'int',
+                        isNullable: false,
+                        isUnique: true,
                     },
                     {
-                        name: 'created_at',
-                        type: 'timestamp with time zone',
-                        default: 'now()',
-                    },
-                    {
-                        name: 'updated_at',
-                        type: 'timestamp with time zone',
-                        default: 'now()',
+                        name: 'token',
+                        type: 'text',
+                        isNullable: false,
+                        isUnique: true,
                     },
                 ],
                 foreignKeys: [

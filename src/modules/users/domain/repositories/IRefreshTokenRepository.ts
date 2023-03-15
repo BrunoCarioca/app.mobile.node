@@ -4,6 +4,6 @@ import { IRefreshToken } from '../models/IRefreshToken';
 export interface IRefreshTokenRepository {
     findById(id: string): Promise<IRefreshToken | null>;
     findByUserId(id: number): Promise<IRefreshToken | null>;
-    create(user: User, expiresIN: number): Promise<IRefreshToken>;
-    delete(id: string): Promise<void>;
+    create(user: User, expiresIN: number, token: string): Promise<IRefreshToken>;
+    delete(userId: number): Promise<void>;
 }

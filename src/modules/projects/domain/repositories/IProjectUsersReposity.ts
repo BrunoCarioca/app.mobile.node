@@ -19,7 +19,10 @@ export type SearchParams = {
 
 export interface IProjectUsersRepository {
     findByUserIdAndProjectId(userId: number, projectId: string): Promise<IProjectsUsers | null>;
-    findByUserID(id: number): Promise<IProjectsUsers[] | null>;
+    findByUserID(
+        id: number,
+        { page, skip, take }: SearchParams,
+    ): Promise<IPaginateProjectUser | null>;
     findByUserAllIdsProjectId(ids: number[], projectId: string): Promise<IProjectsUsers[] | null>;
     findByProjectID(id: string): Promise<IProjectsUsers[] | null>;
     findAll({ page, skip, take }: SearchParams): Promise<IPaginateProjectUser>;

@@ -17,7 +17,7 @@ export const routes = Router();
 const hateoas = new HateoasController();
 
 routes.use('/api/users', userRouters);
-routes.use('/api/login', sessionRouters);
+routes.use('/api/session', sessionRouters);
 routes.use('/api/refresh-token', refreshRouters);
 routes.use('/api/forgot-password', forgotPasswordRouter);
 routes.use('/api/update-password', updatePasswordRouter);

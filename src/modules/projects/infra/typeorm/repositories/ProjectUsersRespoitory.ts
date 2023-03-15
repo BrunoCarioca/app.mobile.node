@@ -82,19 +82,28 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
         return projects_users;
     }
 
-    public async findByUserID(id: number): Promise<IProjectsUsers[] | null> {
-        const projects_users = await this.ormRepository.find({
-            relations: {
-                project: true,
-            },
-            where: {
-                user: {
-                    id,
-                },
-            },
-        });
+    public async findByUserID(
+        id: number,
+        { page, skip, take }: SearchParams,
+    ): Promise<IPaginateProjectUser | null> {
+        const [projects_users, count] = await this.ormRepository
+            .createQueryBuilder('projects_users')
+            .innerJoinAndSelect('projects_users.user', 'user')
+            .innerJoinAndSelect('projects_users.project', 'project')
+            .innerJoinAndSelect('project.company', 'company')
+            .where('projects_users.id_usuario = :id', { id })
+            .skip(skip)
+            .take(take)
+            .getManyAndCount();
 
-        return projects_users;
+        const result = {
+            per_page: take,
+            total: count,
+            current_page: page,
+            data: projects_users,
+        };
+
+        return result;
     }
 
     public async findByUserIdAndProjectId(

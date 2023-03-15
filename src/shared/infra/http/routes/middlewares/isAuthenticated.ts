@@ -2,6 +2,7 @@ import authConfig from '@config/auth';
 import AppError from '@shared/errors/AppError';
 import { NextFunction, Request, Response } from 'express';
 import { verify } from 'jsonwebtoken';
+import { RefreshTokenRepository } from '@modules/users/infra/typeorm/repositories/RefreshTokenRepository';
 
 interface TokenPayload {
     iat: number;
@@ -10,11 +11,11 @@ interface TokenPayload {
     token: string;
 }
 
-export default function isAuthenticated(
+export default async function isAuthenticated(
     request: Request,
     response: Response,
     next: NextFunction,
-): void {
+): Promise<void> {
     const autheHeader = request.headers.authorization;
 
     if (!autheHeader) {
@@ -31,6 +32,13 @@ export default function isAuthenticated(
         request.user = {
             id: sub,
         };
+
+        const refreshTokenRepository = new RefreshTokenRepository();
+        const refreshToken = await refreshTokenRepository.findByUserId(Number(sub));
+
+        if (!refreshToken || refreshToken.token !== token) {
+            throw new AppError('Invalid JWT Token.');
+        }
 
         return next();
     } catch (e) {

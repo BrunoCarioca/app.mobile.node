@@ -29,11 +29,13 @@ export class ProjectController {
 
     public async list(request: Request, response: Response): Promise<Response> {
         const userId = Number(request.user.id);
+        const page = request.query.page ? Number(request.query.page) : 1;
+        const limit = request.query.limit ? Number(request.query.limit) : 20;
 
         const projectUsersRepository = new ProjectsUsersRepository();
 
         const listProjectService = new ListProjectService(projectUsersRepository);
-        const listProject = await listProjectService.execute(userId);
+        const listProject = await listProjectService.execute(userId, { page, limit });
 
         return response.status(200).json(listProject);
     }

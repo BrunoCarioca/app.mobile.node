@@ -21,10 +21,11 @@ export class RefreshTokenRepository implements IRefreshTokenRepository {
         return refreshToken;
     }
 
-    public async create(user: User, expiresIn: number): Promise<IRefreshToken> {
+    public async create(user: User, expiresIn: number, token: string): Promise<IRefreshToken> {
         const refreshToken = await this.ormRepository.create({
             expiresIn,
             user: user,
+            token,
         });
 
         await this.ormRepository.save(refreshToken);
@@ -32,9 +33,11 @@ export class RefreshTokenRepository implements IRefreshTokenRepository {
         return refreshToken;
     }
 
-    public async delete(id: string): Promise<void> {
+    public async delete(userId: number): Promise<void> {
         await this.ormRepository.delete({
-            id,
+            user: {
+                id: userId,
+            },
         });
     }
 

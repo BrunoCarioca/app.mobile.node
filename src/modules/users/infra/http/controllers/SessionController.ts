@@ -1,5 +1,4 @@
 import { CreateSessionService } from '@modules/users/services/CreateSessionService/CreateSessionService';
-import { RefreshTokenCreateService } from '@modules/users/services/RefreshTokenCreate/RefreshTokenCreateService';
 import { instanceToInstance } from 'class-transformer';
 import { Request, Response } from 'express';
 import { RefreshTokenRepository } from '../../typeorm/repositories/RefreshTokenRepository';
@@ -10,24 +9,32 @@ export class SessionController {
         const { email, password } = request.body;
 
         const usersRepository = new UsersRepository();
-        const createSessionService = new CreateSessionService(usersRepository);
+        const refreshTokenRepository = new RefreshTokenRepository();
+        const createSessionService = new CreateSessionService(
+            usersRepository,
+            refreshTokenRepository,
+        );
 
-        const { user, token } = await createSessionService.execute({
+        const { user, refreshToken } = await createSessionService.execute({
             email,
             password,
         });
 
-        const refreshTokenRepository = new RefreshTokenRepository();
-        const refreshtokenCreateService = new RefreshTokenCreateService(refreshTokenRepository);
-
-        const { id: refresh_token } = await refreshtokenCreateService.execute(user);
-
         const userRes = instanceToInstance(user);
 
         return response.status(200).json({
-            user: userRes,
-            token,
-            refresh_token,
+            userRes,
+            token: refreshToken.token,
+            refresh_token: refreshToken.id,
         });
+    }
+
+    public async logout(request: Request, response: Response) {
+        const id = Number(request.user.id);
+
+        const refreshTokenRepository = new RefreshTokenRepository();
+        await refreshTokenRepository.delete(id);
+
+        return response.status(200).json({ message: 'Logout successful.' });
     }
 }
