@@ -10,6 +10,7 @@ import { refreshRouters } from '@modules/users/infra/http/routes/refreshtoken.ro
 import { sessionRouters } from '@modules/users/infra/http/routes/session.routes';
 import { updatePasswordRouter } from '@modules/users/infra/http/routes/updatepassword.routes';
 import { userRouters } from '@modules/users/infra/http/routes/users.routes';
+import { workingRouter } from '@modules/users/infra/http/routes/working.routes';
 import { Router } from 'express';
 import { HateoasController } from './Hateoas/HateoasController';
 
@@ -28,5 +29,6 @@ routes.use('/api/projects', projectRouters);
 routes.use('/api/user-projects', usersProjectRouter);
 routes.use('/api/activities', activityRouter);
 routes.use('/api/reports', reportRouter);
+routes.use('/api/working', workingRouter);
 
 routes.get('/api', hateoas.index);
