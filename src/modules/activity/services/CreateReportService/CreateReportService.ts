@@ -51,7 +51,7 @@ export class CreateReportService {
             throw new AppError('this activity has report');
         }
 
-        const time = activityExist.start;
+        const time = new Date(String(activityExist.start));
         const endTime = end.split(':');
         time.setHours(time.getHours() + Number(endTime[0]));
         time.setMinutes(time.getMinutes() + Number(endTime[1]));

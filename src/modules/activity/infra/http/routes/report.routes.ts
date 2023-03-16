@@ -33,5 +33,5 @@ reportRouter.get(
         },
     }),
     isAuthenticated,
-    reportsController.show
+    reportsController.show,
 );
