@@ -8,7 +8,7 @@ export type SearchParams = {
 };
 
 export interface IActivityRepository {
-    //findAll({ page, skip, take }: SearchParams): Promise<IPaginateActivity>;
+    findByOnlyActivityId(id: number): Promise<IActivity | null>;
     findById(id: number, userId: number): Promise<IActivity | null>;
     findByUserIdStatus(userId: number, status: boolean): Promise<IActivity | null>;
     findByIdRelentions(id: number): Promise<IActivity | null>;

@@ -157,4 +157,19 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
     public async deleteUsers(ids: number[]): Promise<void> {
         await this.ormRepository.delete(ids);
     }
+
+    public async findOneByUserId(userId: number): Promise<IProjectsUsers | null> {
+        const projectUser = await this.ormRepository.findOne({
+            relations: {
+                project: true,
+            },
+            where: {
+                user: {
+                    id: userId,
+                },
+            },
+        });
+
+        return projectUser;
+    }
 }

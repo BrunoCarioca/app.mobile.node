@@ -1,5 +1,6 @@
 import { CreateReportService } from '@modules/activity/services/CreateReportService/CreateReportService';
 import { ShowReportService } from '@modules/activity/services/ShowReportService/ShowReportService';
+import { UpdateEndReportService } from '@modules/activity/services/UpdateEndReportService/UpdateEndReportService';
 import { ProjectsUsersRepository } from '@modules/projects/infra/typeorm/repositories/ProjectUsersRespoitory';
 import { UsersRepository } from '@modules/users/infra/typeorm/repositories/UsersRepository';
 import { Request, Response } from 'express';
@@ -42,5 +43,23 @@ export class ReportsController {
         const report = await showReportService.execute(activityId, userLoginId);
 
         return response.status(200).json(report);
+    }
+
+    public async updateEnd(request: Request, response: Response): Promise<Response> {
+        const { end } = request.body;
+        const activityId = Number(request.params.activityId);
+        const userLoginId = Number(request.user.id);
+
+        const activityRepository = new ActivityRepository();
+        const reportRepository = new ReportRepository();
+
+        const updateEndReportService = new UpdateEndReportService(
+            activityRepository,
+            reportRepository,
+        );
+
+        await updateEndReportService.execute(end, userLoginId, activityId);
+
+        return response.status(200).json([]);
     }
 }

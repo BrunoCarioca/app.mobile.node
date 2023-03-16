@@ -165,4 +165,17 @@ export class ActivityRepository implements IActivityRepository {
 
         return activity;
     }
+
+    public async findByOnlyActivityId(id: number): Promise<IActivity | null> {
+        const activity = await this.ormRepository.findOne({
+            relations: {
+                project: true,
+            },
+            where: {
+                id: id,
+            },
+        });
+
+        return activity;
+    }
 }

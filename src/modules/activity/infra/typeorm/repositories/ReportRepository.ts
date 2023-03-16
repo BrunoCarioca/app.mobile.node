@@ -30,6 +30,7 @@ export class ReportRepository implements IReportRepository {
 
     public async findByActivityId(activityId: number): Promise<IReport | null> {
         const report = await this.ormRepository.findOne({
+            relations: ['activity'],
             where: {
                 activity: {
                     id: activityId,

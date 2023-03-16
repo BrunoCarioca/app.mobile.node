@@ -35,3 +35,19 @@ reportRouter.get(
     isAuthenticated,
     reportsController.show,
 );
+
+reportRouter.put(
+    '/:activityId',
+    celebrate({
+        [Segments.BODY]: {
+            end: Joi.string()
+                .required()
+                .regex(/^(?:[01]\d|2[0-3]):[0-5]\d:[0-5]\d$/),
+        },
+        [Segments.PARAMS]: {
+            activityId: Joi.number().required(),
+        },
+    }),
+    isAuthenticated,
+    reportsController.updateEnd,
+);
