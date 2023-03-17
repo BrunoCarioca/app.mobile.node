@@ -11,6 +11,7 @@ import 'express-async-errors';
 import '../typeorm';
 import { routes } from './routes';
 import uploadConfig from '@config/upload';
+import rateLimiter from './routes/middlewares/rateLimiter';
 
 const app = express();
 
@@ -25,6 +26,7 @@ app.use('/admin/queues', serverAdapter.getRouter());
 
 app.use(cors());
 app.use(express.json());
+app.use(rateLimiter);
 app.use(routes);
 app.use('/files', express.static(uploadConfig.directory));
 app.use(errors());
