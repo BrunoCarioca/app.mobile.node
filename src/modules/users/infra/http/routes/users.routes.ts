@@ -10,7 +10,7 @@ export const userRouters = Router();
 const usersController = new UsersController();
 const usersAvatarController = new UsersAvatarController();
 
-const upload = multer(uploadConfig);
+const upload = multer(uploadConfig.multer);
 
 userRouters.post(
     '/',

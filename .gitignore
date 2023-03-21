@@ -6,4 +6,5 @@ ormconfig.json
 .docker/dbdata
 .docker/mongo/*
 .env
-uploads/*.jpg
+uploads/*
+tem/
