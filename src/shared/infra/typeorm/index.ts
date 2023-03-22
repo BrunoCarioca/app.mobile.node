@@ -23,7 +23,7 @@ import { CraeteReportTable1676156490588 } from './migrations/1676156490588-Craet
 export const dataSource = new DataSource({
     type: 'postgres',
     host: 'db',
-    port: 5432,
+    port: Number(process.env.APP_POSTGRES_PORT),
     username: process.env.APP_POSTGRES_USERNAME,
     password: process.env.APP_POSTGRES_PASSWORD,
     database: process.env.APP_POSTGRES_DATABASE,

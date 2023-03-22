@@ -1,12 +1,15 @@
 import cacheConfig from '@config/cache';
 import Redis, { Redis as RedisClient } from 'ioredis';
-import { IRedisCache } from './IRedisCache';
 
-export default class RedisCache implements IRedisCache {
+class RedisCache {
     private client: RedisClient;
+    private connected = false;
 
     constructor() {
-        this.client = new Redis(cacheConfig.config.redis);
+        if (!this.connected) {
+            this.client = new Redis(cacheConfig.config.redis);
+            this.connected = true;
+        }
     }
 
     public async save(key: string, value: JSON): Promise<void> {
@@ -52,3 +55,5 @@ export default class RedisCache implements IRedisCache {
         return await this.client.hdel(hash, key);
     }
 }
+
+export default new RedisCache();

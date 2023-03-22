@@ -1,4 +1,4 @@
-import RedisCache from '@shared/cache/RedisCache';
+import redisCache from '@shared/cache/RedisCache';
 
 export default {
     key: 'ExpireCode',
@@ -7,11 +7,10 @@ export default {
         delay: 60000 * 15,
     },
     async handle({ data }: any) {
-        const redis = new RedisCache();
-        const codeExist = await redis.hashGet('codigo', data.code);
+        const codeExist = await redisCache.hashGet('codigo', data.code);
 
         if (codeExist) {
-            await redis.hashDel('codigo', data.code);
+            await redisCache.hashDel('codigo', data.code);
         }
     },
 };

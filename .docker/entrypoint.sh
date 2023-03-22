@@ -2,4 +2,8 @@
 
 npm install
 npm run typeorm -- -d ./src/shared/infra/typeorm/index.ts migration:run
-npm run dev
+# desenvolvimento
+#npm run dev
+# produção
+npm run build
+node dist/shared/infra/http/server.js

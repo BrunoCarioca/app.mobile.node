@@ -1,14 +1,13 @@
 import { IUpdatePassword } from '@modules/users/domain/models/IUpdatePassword';
 import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 import { BcryptHashProvider } from '@modules/users/providers/HashProvider';
-import RedisCache from '@shared/cache/RedisCache';
+import redisCache from '@shared/cache/RedisCache';
 import AppError from '@shared/errors/AppError';
 
 export class UpdatePasswordService {
     constructor(private userRepository: IUserRepository) {}
 
     public async execute({ email, password, code }: IUpdatePassword): Promise<void> {
-        const redisCache = new RedisCache();
         const codeEmail = await redisCache.hashGet('codigo', code);
 
         if (!codeEmail) {

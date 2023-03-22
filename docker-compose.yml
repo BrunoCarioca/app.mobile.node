@@ -6,7 +6,7 @@ services:
         entrypoint: .docker/entrypoint.sh
         container_name: api-app-mobile-tcc
         ports:
-            - '${APP_PORT}:3000'
+            - '3000:3000'
         volumes:
             - .:/home/node/app
         depends_on:
@@ -14,17 +14,17 @@ services:
             - redis
 
     db:
-        build: .docker/postgres
+        image: bitnami/postgresql:latest
         container_name: api-app-mobile-db-tcc
         restart: always
         tty: true
         ports:
-            - '${APP_POSTGRES_PORT}:5432'
+            - '5423:5432'
         volumes:
-            - .docker/dbdata:/var/lib/postgresql/data
+            - .docker/dbdata:/bitnami/postgresql
         environment:
-            - POSTGRES_PASSWORD=docker
-            - POSTGRES_DB=app
+            - POSTGRESQL_PASSWORD=0d22391e8c6125e8f2e3361dcad043fc
+            - POSTGRESQL_DATABASE=apitcc
 
     redis:
         image: 'bitnami/redis:latest'

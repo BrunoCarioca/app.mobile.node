@@ -42,26 +42,10 @@ export class ForgotPasswordService {
             'forgot_password.hbs',
         );
 
-        await SESMail.sendMail({
-            to: {
-                name: 'testeNome',
-                email: email,
-            },
-            subject: '[API TCC] Recuperação de senha',
-            templateData: {
-                file: forgotPasswordTemplate,
-                variables: {
-                    name: emailExist.name,
-                    codigo: codigo,
-                },
-            },
-        }).catch(err => {
-            console.log('err: ', err);
-        });
-        // await this.redisCache.hashSet('codigo', codigo, email);
+        await this.redisCache.hashSet('codigo', codigo, email);
 
-        // await Queue.add('ForgotPasswordMail', { email, name: emailExist.name, codigo });
+        await Queue.add('ForgotPasswordMail', { email, name: emailExist.name, codigo });
 
-        // await Queue.add('ExpireCode', { code: codigo });
+        await Queue.add('ExpireCode', { code: codigo });
     }
 }

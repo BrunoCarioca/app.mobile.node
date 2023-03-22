@@ -3,8 +3,11 @@ node_modules/
 build/
 coverage/
 ormconfig.json
-.docker/dbdata
-.docker/mongo/*
+.docker/dbdata*
+.docker/redis/*
 .env
 uploads/*
 tem/
+dist/*
+!uploads/.gitkeep
+idea.txt
