@@ -19,7 +19,7 @@ export class UsersController {
             password,
         });
 
-        return response.status(200).json([]);
+        return response.status(201).json([]);
     }
 
     public async index(request: Request, response: Response): Promise<Response> {
@@ -59,7 +59,7 @@ export class UsersController {
     }
 
     public async delete(request: Request, response: Response) {
-        const id = Number(request.params.id);
+        const id = Number(request.user.id);
 
         const usersRepository = new UsersRepository();
         const deleteUserService = new DeleteUserService(usersRepository);

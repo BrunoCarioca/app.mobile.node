@@ -22,9 +22,6 @@ export class CreateUserService {
             password: hashedPassword,
         });
 
-        // const redisCache = new RedisCache();
-        // await redisCache.invalidate('api-mobile-USER_LIST');
-
         return user;
     }
 }

@@ -18,3 +18,5 @@ sessionRouters.post(
 );
 
 sessionRouters.post('/logout', isAuthenticated, sessionController.logout);
+
+sessionRouters.get('/me', isAuthenticated, sessionController.me);

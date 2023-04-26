@@ -49,15 +49,6 @@ userRouters.put(
     usersController.update,
 );
 
-userRouters.delete(
-    '/:id',
-    celebrate({
-        [Segments.PARAMS]: {
-            id: Joi.number().required(),
-        },
-    }),
-    isAuthenticated,
-    usersController.delete,
-);
+userRouters.delete('/', isAuthenticated, usersController.delete);
 
 userRouters.get('/:id', isAuthenticated, usersController.show);

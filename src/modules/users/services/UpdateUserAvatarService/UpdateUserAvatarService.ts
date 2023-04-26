@@ -33,5 +33,7 @@ export class UpdateUserAvatarService {
             const filename = await diskProvider.saveFile(avatarFileName);
             user.avatar = filename;
         }
+
+        await this.usersRepository.save(user);
     }
 }
