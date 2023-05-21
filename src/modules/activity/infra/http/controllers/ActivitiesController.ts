@@ -7,7 +7,10 @@ import { Request, Response } from 'express';
 import { ActivityRepository } from '../../typeorm/repositories/ActivityRepository';
 
 export class ActivitiesController {
-    public async create(request: Request, response: Response): Promise<Response> {
+    public async create(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { activity, description, projectId } = request.body;
         const userLoginId = Number(request.user.id);
 
@@ -18,13 +21,13 @@ export class ActivitiesController {
             activityRepository,
         );
 
-        await activityCreateService.execute({
+        const newActivity = await activityCreateService.execute({
             activity,
             description,
             projectId,
             userId: userLoginId,
         });
-        return response.status(200).json([]);
+        return response.status(201).json([]);
     }
 
     public async list(request: Request, response: Response): Promise<Response> {
@@ -36,7 +39,10 @@ export class ActivitiesController {
         const activityRepository = new ActivityRepository();
         const activityListService = new ActivityListService(activityRepository);
 
-        const activities = await activityListService.execute({ page, limit }, userLoginId);
+        const activities = await activityListService.execute(
+            { page, limit },
+            userLoginId,
+        );
         return response.status(200).json(activities);
     }
 
@@ -51,12 +57,17 @@ export class ActivitiesController {
         return response.status(200).json(activity);
     }
 
-    public async delete(request: Request, response: Response): Promise<Response> {
+    public async delete(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const id = Number(request.params.id);
         const userLoginId = Number(request.user.id);
 
         const activityRepository = new ActivityRepository();
-        const activityDeleteService = new ActivityDeleteService(activityRepository);
+        const activityDeleteService = new ActivityDeleteService(
+            activityRepository,
+        );
         await activityDeleteService.execute(id, userLoginId);
 
         return response.status(200).json([]);

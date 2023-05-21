@@ -88,9 +88,9 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
     ): Promise<IPaginateProjectUser | null> {
         const [projects_users, count] = await this.ormRepository
             .createQueryBuilder('projects_users')
-            .innerJoinAndSelect('projects_users.user', 'user')
-            .innerJoinAndSelect('projects_users.project', 'project')
-            .innerJoinAndSelect('project.company', 'company')
+            .leftJoinAndSelect('projects_users.user', 'user')
+            .leftJoinAndSelect('projects_users.project', 'project')
+            .leftJoinAndSelect('project.company', 'company')
             .where('projects_users.id_usuario = :id', { id })
             .skip(skip)
             .take(take)

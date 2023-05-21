@@ -9,25 +9,37 @@ interface ResponseHateoas {
 
 export class HateoasController {
     public index(request: Request, response: Response): Response {
-        const baseUrl = 'http://localhost:3000/api/';
+        const baseUrl = process.env.APP_URL;
         const hateoas: ResponseHateoas[] = [];
         const hateoasLinks = new Hateoas();
 
         //links Users
-        hateoasLinks.adicionaLink('GET', 'Recupa os dados de um usuário', `${baseUrl}user/id`);
+        hateoasLinks.adicionaLink(
+            'GET',
+            'Recupa os dados de um usuário',
+            `${baseUrl}user/id`,
+        );
         hateoasLinks.adicionaLink('GET', 'Lista de usuários', `${baseUrl}user`);
         hateoasLinks.adicionaLink(
             'GET',
             'Verifica se o código enviado é valido ou não',
             `${baseUrl}forgot-password?code=code`,
         );
-        hateoasLinks.adicionaLink('POST', 'Adicionar um novo usuário', `${baseUrl}user`);
+        hateoasLinks.adicionaLink(
+            'POST',
+            'Adicionar um novo usuário',
+            `${baseUrl}user`,
+        );
         hateoasLinks.adicionaLink(
             'POST',
             'Envia um email com um código aleatorio para o usuário',
             `${baseUrl}forgot-password`,
         );
-        hateoasLinks.adicionaLink('PUT', 'Atualiza nome e email do usuário', `${baseUrl}user/id`);
+        hateoasLinks.adicionaLink(
+            'PUT',
+            'Atualiza nome e email do usuário',
+            `${baseUrl}user/id`,
+        );
         hateoasLinks.adicionaLink(
             'PATCH',
             'Adicionar uma imagem de perfil ao usuário',
@@ -38,7 +50,11 @@ export class HateoasController {
             'Atualiza a senha do usuário',
             `${baseUrl}update-password`,
         );
-        hateoasLinks.adicionaLink('DELETE', 'Deleta Usuário', `${baseUrl}user/id`);
+        hateoasLinks.adicionaLink(
+            'DELETE',
+            'Deleta Usuário',
+            `${baseUrl}user/id`,
+        );
 
         hateoas.push({
             key: 'Users',
@@ -66,7 +82,11 @@ export class HateoasController {
             'lista as empresas do usuário',
             `${baseUrl}user-companies`,
         );
-        hateoasLinks.adicionaLink('POST', 'Cadastrar uma empresa', `${baseUrl}company`);
+        hateoasLinks.adicionaLink(
+            'POST',
+            'Cadastrar uma empresa',
+            `${baseUrl}company`,
+        );
         hateoasLinks.adicionaLink(
             'POST',
             'Adicionar um novo usuario na empresa',
@@ -81,11 +101,31 @@ export class HateoasController {
         /**Links Projects */
         hateoasLinks.links = [];
 
-        hateoasLinks.adicionaLink('GET', 'Listar projetos do usuario', `${baseUrl}projects`);
-        hateoasLinks.adicionaLink('GET', 'Show projeto', `${baseUrl}projects/id`);
-        hateoasLinks.adicionaLink('POST', 'Cadastrar um novo projeto', `${baseUrl}projects`);
-        hateoasLinks.adicionaLink('PUT', 'Atualizar projeto', `${baseUrl}projects`);
-        hateoasLinks.adicionaLink('DELETE', 'Deleta projeto', `${baseUrl}projects`);
+        hateoasLinks.adicionaLink(
+            'GET',
+            'Listar projetos do usuario',
+            `${baseUrl}projects`,
+        );
+        hateoasLinks.adicionaLink(
+            'GET',
+            'Show projeto',
+            `${baseUrl}projects/id`,
+        );
+        hateoasLinks.adicionaLink(
+            'POST',
+            'Cadastrar um novo projeto',
+            `${baseUrl}projects`,
+        );
+        hateoasLinks.adicionaLink(
+            'PUT',
+            'Atualizar projeto',
+            `${baseUrl}projects`,
+        );
+        hateoasLinks.adicionaLink(
+            'DELETE',
+            'Deleta projeto',
+            `${baseUrl}projects`,
+        );
 
         hateoas.push({
             key: 'Projects',
@@ -119,10 +159,26 @@ export class HateoasController {
         /**Links activities */
         hateoasLinks.links = [];
 
-        hateoasLinks.adicionaLink('GET', 'Lista atividades do usuário', `${baseUrl}activities`);
-        hateoasLinks.adicionaLink('GET', 'Mostrar atividade do usuário', `${baseUrl}activities/id`);
-        hateoasLinks.adicionaLink('POST', 'Criar uma atividade', `${baseUrl}activities`);
-        hateoasLinks.adicionaLink('Delete', 'Deletar ativdade', `${baseUrl}activities/id`);
+        hateoasLinks.adicionaLink(
+            'GET',
+            'Lista atividades do usuário',
+            `${baseUrl}activities`,
+        );
+        hateoasLinks.adicionaLink(
+            'GET',
+            'Mostrar atividade do usuário',
+            `${baseUrl}activities/id`,
+        );
+        hateoasLinks.adicionaLink(
+            'POST',
+            'Criar uma atividade',
+            `${baseUrl}activities`,
+        );
+        hateoasLinks.adicionaLink(
+            'Delete',
+            'Deletar ativdade',
+            `${baseUrl}activities/id`,
+        );
 
         hateoas.push({
             key: 'activities',
@@ -131,7 +187,11 @@ export class HateoasController {
         /******************************************************* */
         /**Links Users reports */
         hateoasLinks.links = [];
-        hateoasLinks.adicionaLink('POST', 'Criar uma Relatoria da atividade', `${baseUrl}reports`);
+        hateoasLinks.adicionaLink(
+            'POST',
+            'Criar uma Relatoria da atividade',
+            `${baseUrl}reports`,
+        );
 
         hateoas.push({
             key: 'reports',

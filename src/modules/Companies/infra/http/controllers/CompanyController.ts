@@ -21,6 +21,6 @@ export class CompanyController {
 
         const companies = await companyCreateService.execute({ cnpj_cpf, fantasia, userId });
 
-        return response.status(200).json(companies);
+        return response.status(201).json(companies);
     }
 }

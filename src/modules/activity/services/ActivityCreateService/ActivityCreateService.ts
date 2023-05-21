@@ -21,20 +21,26 @@ export class ActivityCreateService {
         projectId,
         userId,
     }: IActivityCreateService): Promise<void> {
-
-        const projectUser = await this.projectUsersRepository.findByUserIdAndProjectId(
-            userId,
-            projectId,
-        );
+        const projectUser =
+            await this.projectUsersRepository.findByUserIdAndProjectId(
+                userId,
+                projectId,
+            );
 
         if (!projectUser) {
             throw new AppError('User not are  in project/project not exist');
         }
 
-        const isOpen = await this.activityRepository.findByUserIdProjectIdStatus(userId, projectId);
+        const isOpen =
+            await this.activityRepository.findByUserIdProjectIdStatus(
+                userId,
+                projectId,
+            );
 
         if (isOpen) {
-            throw new AppError(`The user has a pending activity. id:${isOpen.id}`);
+            throw new AppError(
+                `The user has a pending activity. id:${isOpen.id}`,
+            );
         }
 
         await this.activityRepository.create({

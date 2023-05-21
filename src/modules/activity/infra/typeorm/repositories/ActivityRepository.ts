@@ -11,7 +11,6 @@ import { Project } from '@modules/projects/infra/typeorm/entities/project';
 import { dataSource } from '@shared/infra/typeorm';
 import { Repository } from 'typeorm';
 import Activity from '../entities/Activity';
-
 export class ActivityRepository implements IActivityRepository {
     private ormRepository: Repository<Activity>;
 
@@ -45,7 +44,10 @@ export class ActivityRepository implements IActivityRepository {
         await this.ormRepository.delete(id);
     }
 
-    public async findById(id: number, userId: number): Promise<IActivity | null> {
+    public async findById(
+        id: number,
+        userId: number,
+    ): Promise<IActivity | null> {
         const activity = await this.ormRepository.findOne({
             where: {
                 id: id,
@@ -153,7 +155,10 @@ export class ActivityRepository implements IActivityRepository {
         return activity;
     }
 
-    public async findByUserIdStatus(userId: number, status: boolean): Promise<IActivity | null> {
+    public async findByUserIdStatus(
+        userId: number,
+        status: boolean,
+    ): Promise<IActivity | null> {
         const activity = await this.ormRepository.findOne({
             where: {
                 user: {
@@ -177,5 +182,18 @@ export class ActivityRepository implements IActivityRepository {
         });
 
         return activity;
+    }
+
+    public async findActivityLastDate(
+        userId: number,
+        data: Date,
+    ): Promise<IActivity[] | null> {
+        const activities = await this.ormRepository
+            .createQueryBuilder()
+            .where('Activity.id_user = :id', { id: userId })
+            .andWhere('Activity.end > :date', { date: data })
+            .getMany();
+
+        return activities;
     }
 }
