@@ -7,7 +7,10 @@ import { Request, Response } from 'express';
 import { UsersRepository } from '../../typeorm/repositories/UsersRepository';
 
 export class UsersController {
-    public async create(request: Request, response: Response): Promise<Response> {
+    public async create(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { email, name, password } = request.body;
 
         const usersRepository = new UsersRepository();
@@ -22,7 +25,10 @@ export class UsersController {
         return response.status(201).json([]);
     }
 
-    public async index(request: Request, response: Response): Promise<Response> {
+    public async index(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const page = request.query.page ? Number(request.query.page) : 1;
         const limit = request.query.limit ? Number(request.query.limit) : 20;
 
@@ -42,7 +48,12 @@ export class UsersController {
         const usersRepository = new UsersRepository();
         const updateUserService = new UpdateUserService(usersRepository);
 
-        const user = await updateUserService.execute(id, name, email, userLoginId);
+        const user = await updateUserService.execute(
+            id,
+            name,
+            email,
+            userLoginId,
+        );
 
         return response.status(200).json(user);
     }

@@ -17,7 +17,11 @@ export class CompanyRepository implements ICompanyRepository {
         this.ormRepository = dataSource.getRepository(Company);
     }
 
-    public async findAll({ page, skip, take }: SearchParams): Promise<IPaginateCompany> {
+    public async findAll({
+        page,
+        skip,
+        take,
+    }: SearchParams): Promise<IPaginateCompany> {
         const [companies, count] = await this.ormRepository
             .createQueryBuilder()
             .skip(skip)
@@ -50,7 +54,11 @@ export class CompanyRepository implements ICompanyRepository {
         return company;
     }
 
-    public async create({ cnpj_cpf, fantasia, codigo }: ICreateCompany): Promise<ICompany> {
+    public async create({
+        cnpj_cpf,
+        fantasia,
+        codigo,
+    }: ICreateCompany): Promise<ICompany> {
         const company = await this.ormRepository.create({
             cnpj_cpf,
             fantasia,

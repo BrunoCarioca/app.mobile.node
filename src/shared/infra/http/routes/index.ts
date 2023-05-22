@@ -13,6 +13,7 @@ import { userRouters } from '@modules/users/infra/http/routes/users.routes';
 import { workingRouter } from '@modules/users/infra/http/routes/working.routes';
 import { Router } from 'express';
 import { HateoasController } from './Hateoas/HateoasController';
+import { companyProjectsRouter } from '@modules/Companies/infra/http/routers/companyprojects.routes';
 
 export const routes = Router();
 const hateoas = new HateoasController();
@@ -24,6 +25,7 @@ routes.use('/api/forgot-password', forgotPasswordRouter);
 routes.use('/api/update-password', updatePasswordRouter);
 routes.use('/api/company', companyRouter);
 routes.use('/api/company-users', companyUserRouter);
+routes.use('/api/company-projects', companyProjectsRouter);
 routes.use('/api/user-companies', userCompanyRouter);
 routes.use('/api/projects', projectRouters);
 routes.use('/api/user-projects', usersProjectRouter);

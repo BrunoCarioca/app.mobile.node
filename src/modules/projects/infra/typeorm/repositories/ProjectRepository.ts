@@ -64,7 +64,12 @@ export class ProjectRepository implements IProjectRepository {
         return project;
     }
 
-    public async create({ name, admin, description, company }: ICreateProject): Promise<IProject> {
+    public async create({
+        name,
+        admin,
+        description,
+        company,
+    }: ICreateProject): Promise<IProject> {
         const project = await this.ormRepository.create({
             name,
             company,

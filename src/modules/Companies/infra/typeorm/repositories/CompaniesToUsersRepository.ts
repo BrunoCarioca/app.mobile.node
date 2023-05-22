@@ -37,7 +37,9 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         return companiesUsers;
     }
 
-    public async findUsersByCompanyId(id: string): Promise<CompaniesUsers[] | null> {
+    public async findUsersByCompanyId(
+        id: string,
+    ): Promise<CompaniesUsers[] | null> {
         const companiesUsers = await this.ormRepository.find({
             relations: {
                 user: true,
@@ -106,7 +108,9 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         return companiesUsers;
     }
 
-    public async findCompaniesByUserId(id: number): Promise<ICompaniesUsers[] | null> {
+    public async findCompaniesByUserId(
+        id: number,
+    ): Promise<ICompaniesUsers[] | null> {
         const companiesUsers = await this.ormRepository.find({
             select: {
                 role_user: false,
@@ -126,8 +130,12 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         return companiesUsers;
     }
 
-    public async save(companies_users: ICompaniesUsers): Promise<ICompaniesUsers> {
-        const updateCompaniesUser = await this.ormRepository.save(companies_users);
+    public async save(
+        companies_users: ICompaniesUsers,
+    ): Promise<ICompaniesUsers> {
+        const updateCompaniesUser = await this.ormRepository.save(
+            companies_users,
+        );
         return updateCompaniesUser;
     }
 

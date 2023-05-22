@@ -5,4 +5,8 @@ import { Router } from 'express';
 export const userCompanyRouter = Router();
 const companyUserController = new CompanyUserController();
 
-userCompanyRouter.get('/', isAuthenticated, companyUserController.listCompaniesUsers);
+userCompanyRouter.get(
+    '/',
+    isAuthenticated,
+    companyUserController.listCompaniesUsers,
+);
