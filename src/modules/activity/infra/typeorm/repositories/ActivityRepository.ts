@@ -138,15 +138,11 @@ export class ActivityRepository implements IActivityRepository {
 
     public async findByUserIdProjectIdStatus(
         userId: number,
-        projectId: string,
     ): Promise<IActivity | null> {
         const activity = await this.ormRepository.findOne({
             where: {
                 user: {
                     id: userId,
-                },
-                project: {
-                    id: projectId,
                 },
                 status: false,
             },

@@ -31,10 +31,7 @@ export interface IActivityRepository {
         { page, skip, take }: SearchParams,
         status: boolean,
     ): Promise<IPaginateActivity>;
-    findByUserIdProjectIdStatus(
-        userId: number,
-        projectId: string,
-    ): Promise<IActivity | null>;
+    findByUserIdProjectIdStatus(userId: number): Promise<IActivity | null>;
     findActivityLastDate(
         userId: number,
         date: Date,

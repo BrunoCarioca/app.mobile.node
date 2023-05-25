@@ -31,15 +31,12 @@ export class ActivityCreateService {
             throw new AppError('User not are  in project/project not exist');
         }
 
-        const isOpen =
-            await this.activityRepository.findByUserIdProjectIdStatus(
-                userId,
-                projectId,
-            );
+        const userHasActivityOpen =
+            await this.activityRepository.findByUserIdProjectIdStatus(userId);
 
-        if (isOpen) {
+        if (userHasActivityOpen) {
             throw new AppError(
-                `The user has a pending activity. id:${isOpen.id}`,
+                `The user has a pending activity. id:${userHasActivityOpen.id}`,
             );
         }
 
