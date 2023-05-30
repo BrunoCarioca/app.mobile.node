@@ -1,9 +1,12 @@
 import { ICompany } from '@modules/Companies/domain/models/ICompany';
 import { ICompaniesUsers } from '@modules/Companies/domain/models/ICompanyUser';
-import { ICompaniesToUsersRepository } from '@modules/Companies/domain/repositories/ICompaniesToUsersRepository';
+import {
+    ICompaniesToUsersRepository,
+    SearchCompany,
+} from '@modules/Companies/domain/repositories/ICompaniesToUsersRepository';
 import { IUser } from '@modules/users/domain/models/IUser';
 import { dataSource } from '@shared/infra/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { CompaniesUsers } from '../entities/CompanyUser';
 
 export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
@@ -157,5 +160,40 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         await this.ormRepository.save(newUser);
 
         return newUser;
+    }
+
+    public async findByFantasia(
+        fantasia: string,
+        user_id: number,
+    ): Promise<SearchCompany> {
+        const [companies, count] = await this.ormRepository.findAndCount({
+            select: {
+                id: true,
+                created_at: false,
+                updated_at: false,
+                role_user: false,
+                company: {
+                    cnpj_cpf: false,
+                    id: true,
+                    fantasia: true,
+                },
+            },
+            relations: {
+                company: true,
+            },
+            where: {
+                company: {
+                    fantasia: Like(`%${fantasia}%`),
+                },
+                user: {
+                    id: user_id,
+                },
+            },
+        });
+
+        return {
+            companies,
+            count,
+        };
     }
 }

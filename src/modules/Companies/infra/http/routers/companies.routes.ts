@@ -17,3 +17,14 @@ companyRouter.post(
     isAuthenticated,
     companyController.create,
 );
+
+companyRouter.get(
+    '/search',
+    celebrate({
+        [Segments.QUERY]: {
+            fantasia: Joi.string(),
+        },
+    }),
+    isAuthenticated,
+    companyController.search,
+);
