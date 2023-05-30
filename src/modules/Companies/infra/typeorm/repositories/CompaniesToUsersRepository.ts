@@ -169,13 +169,17 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         const [companies, count] = await this.ormRepository.findAndCount({
             select: {
                 id: true,
-                created_at: false,
-                updated_at: false,
-                role_user: false,
+                created_at: true,
+                updated_at: true,
+                role_user: true,
                 company: {
-                    cnpj_cpf: false,
                     id: true,
                     fantasia: true,
+                    cnpj_cpf: true,
+                    logo: true,
+                    codigo: true,
+                    created_at: true,
+                    updated_at: true,
                 },
             },
             relations: {
