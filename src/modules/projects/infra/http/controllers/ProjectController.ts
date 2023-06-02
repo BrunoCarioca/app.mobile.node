@@ -7,9 +7,13 @@ import { ShowProjectService } from '@modules/projects/services/ShowProjectServic
 import { Request, Response } from 'express';
 import { ProjectRepository } from '../../typeorm/repositories/ProjectRepository';
 import { ProjectsUsersRepository } from '../../typeorm/repositories/ProjectUsersRespoitory';
+import { SearchProjectsService } from '@modules/projects/services/SearchProjectsService/SearchProjectsService';
 
 export class ProjectController {
-    public async create(request: Request, response: Response): Promise<Response> {
+    public async create(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { name, description, users, companyId } = request.body;
         const id = Number(request.user.id);
 
@@ -22,7 +26,13 @@ export class ProjectController {
             usersCompaniesRepository,
         );
 
-        await crateProjectService.exec({ name, admin: id, description, company: companyId, users });
+        await crateProjectService.exec({
+            name,
+            admin: id,
+            description,
+            company: companyId,
+            users,
+        });
 
         return response.status(200).json([]);
     }
@@ -34,8 +44,13 @@ export class ProjectController {
 
         const projectUsersRepository = new ProjectsUsersRepository();
 
-        const listProjectService = new ListProjectService(projectUsersRepository);
-        const listProject = await listProjectService.execute(userId, { page, limit });
+        const listProjectService = new ListProjectService(
+            projectUsersRepository,
+        );
+        const listProject = await listProjectService.execute(userId, {
+            page,
+            limit,
+        });
 
         return response.status(200).json(listProject);
     }
@@ -45,33 +60,70 @@ export class ProjectController {
         const userId = Number(request.user.id);
 
         const projectsUsersRepository = new ProjectsUsersRepository();
-        const showProjectService = await new ShowProjectService(projectsUsersRepository);
+        const showProjectService = await new ShowProjectService(
+            projectsUsersRepository,
+        );
         const project = await showProjectService.execute(userId, projectId);
 
         return response.status(200).json(project);
     }
 
-    public async update(request: Request, response: Response): Promise<Response> {
+    public async update(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { name, description } = request.body;
         const { projectId } = request.params;
         const userId = Number(request.user.id);
 
         const projectRepository = new ProjectRepository();
-        const projectUpdateService = new ProjectUpdateService(projectRepository);
-        await projectUpdateService.execute({ name, description, projectId, userId });
+        const projectUpdateService = new ProjectUpdateService(
+            projectRepository,
+        );
+        await projectUpdateService.execute({
+            name,
+            description,
+            projectId,
+            userId,
+        });
 
         return response.status(200).json([]);
     }
 
-    public async delete(request: Request, response: Response): Promise<Response> {
+    public async delete(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { projectId } = request.params;
         const userId = Number(request.user.id);
 
         const projectRepository = new ProjectRepository();
-        const projectDeleteService = new ProjectDeleteService(projectRepository);
+        const projectDeleteService = new ProjectDeleteService(
+            projectRepository,
+        );
 
         await projectDeleteService.execute(projectId, userId);
 
         return response.status(200).json([]);
+    }
+
+    public async search(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const { name } = request.query;
+        const userLoginId = Number(request.user.id);
+
+        const projectUsersRepository = new ProjectsUsersRepository();
+        const searchProjectsService = new SearchProjectsService(
+            projectUsersRepository,
+        );
+
+        const searchProjects = await searchProjectsService.execute(
+            name as string,
+            userLoginId,
+        );
+
+        return response.status(200).json(searchProjects);
     }
 }

@@ -20,17 +20,6 @@ projectRouters.post(
     projectController.create,
 );
 
-projectRouters.get(
-    '/:projectId',
-    celebrate({
-        [Segments.PARAMS]: {
-            projectId: Joi.string().required().uuid(),
-        },
-    }),
-    isAuthenticated,
-    projectController.show,
-);
-
 projectRouters.get('/', isAuthenticated, projectController.list);
 
 projectRouters.put(
@@ -57,4 +46,26 @@ projectRouters.delete(
     }),
     isAuthenticated,
     projectController.delete,
+);
+
+projectRouters.get(
+    '/search',
+    celebrate({
+        [Segments.QUERY]: {
+            name: Joi.string(),
+        },
+    }),
+    isAuthenticated,
+    projectController.search,
+);
+
+projectRouters.get(
+    '/:projectId',
+    celebrate({
+        [Segments.PARAMS]: {
+            projectId: Joi.string().required().uuid(),
+        },
+    }),
+    isAuthenticated,
+    projectController.show,
 );

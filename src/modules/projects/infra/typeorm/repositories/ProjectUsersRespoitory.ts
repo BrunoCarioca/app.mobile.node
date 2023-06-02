@@ -7,9 +7,10 @@ import {
     IPaginateProjectUser,
     IProjectUsersRepository,
     SearchParams,
+    SearchProject,
 } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import { dataSource } from '@shared/infra/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { ProjectsUsers } from '../entities/ProjectUser';
 
 export class ProjectsUsersRepository implements IProjectUsersRepository {
@@ -19,7 +20,10 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
         this.ormRepository = dataSource.getRepository(ProjectsUsers);
     }
 
-    public async create({ user, project }: ICreateProjectsUsers): Promise<void> {
+    public async create({
+        user,
+        project,
+    }: ICreateProjectsUsers): Promise<void> {
         const project_user = await this.ormRepository.create({
             user,
             project,
@@ -28,7 +32,10 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
         await this.ormRepository.save(project_user);
     }
 
-    public async createMany({ users, project }: ICreateManyProjectsUsers): Promise<void> {
+    public async createMany({
+        users,
+        project,
+    }: ICreateManyProjectsUsers): Promise<void> {
         const projects_users = await Promise.all(
             users.map(
                 async user =>
@@ -50,7 +57,11 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
         await this.ormRepository.delete(id);
     }
 
-    public async findAll({ page, skip, take }: SearchParams): Promise<IPaginateProjectUser> {
+    public async findAll({
+        page,
+        skip,
+        take,
+    }: SearchParams): Promise<IPaginateProjectUser> {
         const [projects_users, count] = await this.ormRepository
             .createQueryBuilder()
             .skip(skip)
@@ -158,7 +169,9 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
         await this.ormRepository.delete(ids);
     }
 
-    public async findOneByUserId(userId: number): Promise<IProjectsUsers | null> {
+    public async findOneByUserId(
+        userId: number,
+    ): Promise<IProjectsUsers | null> {
         const projectUser = await this.ormRepository.findOne({
             relations: {
                 project: true,
@@ -171,5 +184,29 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
         });
 
         return projectUser;
+    }
+
+    public async searchByNameAndUserId(
+        name: string,
+        userId: number,
+    ): Promise<SearchProject | null> {
+        const [projects, count] = await this.ormRepository.findAndCount({
+            relations: {
+                project: true,
+            },
+            where: {
+                project: {
+                    name: Like(`%${name}%`),
+                },
+                user: {
+                    id: userId,
+                },
+            },
+        });
+
+        return {
+            projects,
+            count,
+        };
     }
 }
