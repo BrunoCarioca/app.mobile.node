@@ -17,7 +17,6 @@ export class SearchActivityService {
 
             return searchActivity;
         }
-        console.log('busca pelo user Id e projectID');
 
         const userInProject =
             await this.projectUsersRepository.findByUserIdAndProjectId(
