@@ -11,6 +11,11 @@ export type SearchParams = {
     take: number;
 };
 
+export type SearchActivityByUser = {
+    activities: IActivity[];
+    count: number;
+};
+
 export interface IActivityRepository {
     findByOnlyActivityId(id: number): Promise<IActivity | null>;
     findById(id: number, userId: number): Promise<IActivity | null>;
@@ -45,4 +50,12 @@ export interface IActivityRepository {
     }: IActivityCreate): Promise<void>;
     delete(id: number): Promise<void>;
     save(activity: IActivity): Promise<void>;
+    searchByProjectId(
+        activity: string,
+        project: Project,
+    ): Promise<SearchActivityByUser | null>;
+    searchByUserId(
+        activity: string,
+        userId: number,
+    ): Promise<SearchActivityByUser | null>;
 }

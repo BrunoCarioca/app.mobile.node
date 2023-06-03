@@ -5,11 +5,12 @@ import {
 } from '@modules/activity/domain/models/IActivity';
 import {
     IActivityRepository,
+    SearchActivityByUser,
     SearchParams,
 } from '@modules/activity/domain/repository/IActivityRepository';
 import { Project } from '@modules/projects/infra/typeorm/entities/project';
 import { dataSource } from '@shared/infra/typeorm';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import Activity from '../entities/Activity';
 export class ActivityRepository implements IActivityRepository {
     private ormRepository: Repository<Activity>;
@@ -191,5 +192,43 @@ export class ActivityRepository implements IActivityRepository {
             .getMany();
 
         return activities;
+    }
+
+    public async searchByUserId(
+        activity: string,
+        userId: number,
+    ): Promise<SearchActivityByUser | null> {
+        const [activities, count] = await this.ormRepository.findAndCount({
+            where: {
+                activity: Like(`%${activity}%`),
+                user: {
+                    id: userId,
+                },
+            },
+        });
+
+        return {
+            activities,
+            count,
+        };
+    }
+
+    public async searchByProjectId(
+        activity: string,
+        project: Project,
+    ): Promise<SearchActivityByUser | null> {
+        const [activities, count] = await this.ormRepository.findAndCount({
+            where: {
+                activity: Like(`%${activity}%`),
+                project: {
+                    id: project.id,
+                },
+            },
+        });
+
+        return {
+            activities,
+            count,
+        };
     }
 }

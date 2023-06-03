@@ -5,6 +5,7 @@ import { ActivityShowService } from '@modules/activity/services/ActivityShowServ
 import { ProjectsUsersRepository } from '@modules/projects/infra/typeorm/repositories/ProjectUsersRespoitory';
 import { Request, Response } from 'express';
 import { ActivityRepository } from '../../typeorm/repositories/ActivityRepository';
+import { SearchActivityService } from '@modules/activity/services/SearchActivityService/SearchActivityService';
 
 export class ActivitiesController {
     public async create(
@@ -71,5 +72,28 @@ export class ActivitiesController {
         await activityDeleteService.execute(id, userLoginId);
 
         return response.status(200).json([]);
+    }
+
+    public async search(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const { name, project } = request.query;
+        const userLoginId = Number(request.user.id);
+
+        const activityRepository = new ActivityRepository();
+        const projectUsersRepository = new ProjectsUsersRepository();
+        const searchActivityService = new SearchActivityService(
+            activityRepository,
+            projectUsersRepository,
+        );
+
+        const searchActivities = await searchActivityService.execute(
+            name as string,
+            project as string,
+            userLoginId,
+        );
+
+        return response.status(200).json(searchActivities);
     }
 }

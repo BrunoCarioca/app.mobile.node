@@ -20,6 +20,17 @@ activityRouter.post(
 );
 
 activityRouter.get('/', isAuthenticated, activitiesController.list);
+activityRouter.get(
+    '/search',
+    celebrate({
+        [Segments.QUERY]: {
+            name: Joi.string(),
+            project: Joi.string().uuid(),
+        },
+    }),
+    isAuthenticated,
+    activitiesController.search,
+);
 
 activityRouter.get(
     '/:id',
