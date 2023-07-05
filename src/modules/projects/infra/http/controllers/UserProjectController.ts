@@ -17,12 +17,10 @@ export class UserProjectController {
 
         const projectUsersRepository = new ProjectsUsersRepository();
         const usersCompanyRepository = new CompaniesToUsersRepository();
-        const userRepository = new UsersRepository();
 
         const addUserProjectService = new AddUserProjectService(
             usersCompanyRepository,
             projectUsersRepository,
-            userRepository,
         );
 
         await addUserProjectService.execute({
