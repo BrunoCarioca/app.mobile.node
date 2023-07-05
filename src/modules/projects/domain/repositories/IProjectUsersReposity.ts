@@ -32,8 +32,8 @@ export interface IProjectUsersRepository {
         id: number,
         { page, skip, take }: SearchParams,
     ): Promise<IPaginateProjectUser | null>;
-    findByUserAllIdsProjectId(
-        ids: number[],
+    findByUserAllEmailProjectId(
+        emails: string[],
         projectId: string,
     ): Promise<IProjectsUsers[] | null>;
     findByProjectID(id: string): Promise<IProjectsUsers[] | null>;

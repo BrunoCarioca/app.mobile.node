@@ -7,21 +7,32 @@ import { CompaniesToUsersRepository } from '../../typeorm/repositories/Companies
 import { CompanyRepository } from '../../typeorm/repositories/CompanyRepository';
 
 export class CompanyUserController {
-    public async listUsersCompany(request: Request, response: Response): Promise<Response> {
+    public async listUsersCompany(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const userId = Number(request.user.id);
         const { companyId } = request.params;
 
         const companiesUsersReposiory = new CompaniesToUsersRepository();
-        const companyUsersListService = new CompanyUsersListService(companiesUsersReposiory);
-        const companyUsers = await companyUsersListService.execute(userId, companyId);
+        const companyUsersListService = new CompanyUsersListService(
+            companiesUsersReposiory,
+        );
+        const companyUsers = await companyUsersListService.execute(
+            userId,
+            companyId,
+        );
 
         return response.status(200).json(companyUsers);
     }
 
-    public async addUserToCompany(request: Request, response: Response): Promise<Response> {
+    public async addUserToCompany(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const userId = Number(request.user.id);
         const { companyId } = request.params;
-        const { newUserId } = request.body;
+        const { newUserEmail } = request.body;
 
         const usersRepository = new UsersRepository();
         const companyRepository = new CompanyRepository();
@@ -32,16 +43,25 @@ export class CompanyUserController {
             companiesUsersRepository,
         );
 
-        const res = await addUserCompanyService.execute(userId, companyId, newUserId);
+        const res = await addUserCompanyService.execute(
+            userId,
+            companyId,
+            newUserEmail,
+        );
 
         return response.status(200).json(res);
     }
 
-    public async listCompaniesUsers(request: Request, response: Response): Promise<Response> {
+    public async listCompaniesUsers(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const userId = Number(request.user.id);
 
         const companiesUsersRepository = new CompaniesToUsersRepository();
-        const userCompanyListService = new UserCompanyListService(companiesUsersRepository);
+        const userCompanyListService = new UserCompanyListService(
+            companiesUsersRepository,
+        );
 
         const companyUsers = await userCompanyListService.execute(userId);
 

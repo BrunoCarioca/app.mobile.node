@@ -2,12 +2,13 @@ import { ICompaniesToUsersRepository } from '@modules/Companies/domain/repositor
 import { IProjectRepository } from '@modules/projects/domain/repositories/IProjectReposity';
 import { IProjectUsersRepository } from '@modules/projects/domain/repositories/IProjectUsersReposity';
 import { IUser } from '@modules/users/domain/models/IUser';
+import { IUserRepository } from '@modules/users/domain/repositories/IUserRepository';
 import AppError from '@shared/errors/AppError';
 
 interface IAddUserProject {
     userId: number;
     projectId: string;
-    users: number[];
+    users: string[];
     companyId: string;
 }
 
@@ -15,56 +16,76 @@ export class AddUserProjectService {
     constructor(
         private usersCompanyRespository: ICompaniesToUsersRepository,
         private projectsUsersRepository: IProjectUsersRepository,
-        private projectRespository: IProjectRepository,
     ) {}
 
-    public async execute({ userId, projectId, users, companyId }: IAddUserProject): Promise<void> {
-        const isUserAdmin = await this.projectsUsersRepository.findByUserIdAndProjectId(
-            userId,
-            projectId,
-        );
+    public async execute({
+        userId,
+        projectId,
+        users,
+        companyId,
+    }: IAddUserProject): Promise<void> {
+        const useIsAdmin =
+            await this.usersCompanyRespository.findByCompanyIdAndUserId(
+                userId,
+                companyId,
+            );
 
-        if (!isUserAdmin) {
-            throw new AppError('Project not found!');
+        if (!useIsAdmin) {
+            throw new AppError('User not are in company or company not exist!');
         }
 
-        if (isUserAdmin.project.admin !== userId) {
+        if (useIsAdmin.role_user > 2) {
             throw new AppError('User not have permission!');
         }
 
-        const usersAddExist = await this.usersCompanyRespository.findAllByCompanyIdAndUserId(
-            users,
-            companyId,
+        const usersAddExistInCompany =
+            await this.usersCompanyRespository.findAllByCompanyIdAndUserEmail(
+                users,
+                companyId,
+            );
+
+        if (
+            !usersAddExistInCompany ||
+            usersAddExistInCompany.length !== users.length
+        ) {
+            throw new AppError('Users not exist or not are in company!');
+        }
+
+        const usersAddExistInProject =
+            await this.projectsUsersRepository.findByUserAllEmailProjectId(
+                users,
+                projectId,
+            );
+
+        if (usersAddExistInProject && usersAddExistInProject.length > 0) {
+            throw new AppError('Users already are in project!');
+        }
+
+        const userAdmin =
+            await this.projectsUsersRepository.findByUserIdAndProjectId(
+                userId,
+                projectId,
+            );
+
+        if (!userAdmin) {
+            throw new AppError('User not are in project!');
+        }
+
+        if (userAdmin.project.admin !== userId) {
+            throw new AppError('User not have permission!');
+        }
+
+        if (userAdmin.project.company.id !== companyId) {
+            throw new AppError('project not are in company!');
+        }
+
+        const newUsers = usersAddExistInCompany.map(
+            (companiesUsers): IUser => companiesUsers.user,
         );
-
-        if (usersAddExist.length !== users.length) {
-            throw new AppError('Users have to be in the company to Add!');
-        }
-
-        const project = await this.projectRespository.findByID(projectId);
-
-        if (!project) {
-            throw new AppError('project not exist');
-        }
-
-        if (project.company.id !== companyId) {
-            throw new AppError('Project not found in company!');
-        }
-
-        const usersInProject = await this.projectsUsersRepository.findByUserAllIdsProjectId(
-            users,
-            projectId,
-        );
-
-        if (usersInProject?.length !== 0) {
-            throw new AppError('User are already in project!');
-        }
-
-        const newUsers = usersAddExist.map((user): IUser => user.user);
 
         await this.projectsUsersRepository.createMany({
             users: newUsers,
-            project,
+            project: userAdmin.project,
         });
     }
 }

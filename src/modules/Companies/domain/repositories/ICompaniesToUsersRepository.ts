@@ -15,8 +15,8 @@ export interface ICompaniesToUsersRepository {
         userId: number,
         companyId: string,
     ): Promise<ICompaniesUsers | null>;
-    findAllByCompanyIdAndUserId(
-        userId: number[],
+    findAllByCompanyIdAndUserEmail(
+        usersEmail: string[],
         companyId: string,
     ): Promise<ICompaniesUsers[]>;
     findUsersByCompanyId(id: string): Promise<ICompaniesUsers[] | null>;

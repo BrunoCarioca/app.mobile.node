@@ -24,7 +24,7 @@ companyUserRouter.post(
             companyId: Joi.string().uuid().required(),
         },
         [Segments.BODY]: {
-            newUserId: Joi.number().required(),
+            newUserEmail: Joi.string().required().email(),
         },
     }),
     isAuthenticated,

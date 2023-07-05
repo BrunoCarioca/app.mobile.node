@@ -1,10 +1,13 @@
 import { ICreateUser } from '@modules/users/domain/models/ICreateUser';
 import { IPaginateUser } from '@modules/users/domain/models/IPaginateUser';
 import { IUser } from '@modules/users/domain/models/IUser';
-import { IUserRepository, SearchParams } from '@modules/users/domain/repositories/IUserRepository';
+import {
+    IUserRepository,
+    SearchParams,
+} from '@modules/users/domain/repositories/IUserRepository';
 import { dataSource } from '@shared/infra/typeorm';
 import { instanceToInstance } from 'class-transformer';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { User } from '../entities/User';
 
 export class UsersRepository implements IUserRepository {
@@ -14,7 +17,11 @@ export class UsersRepository implements IUserRepository {
         this.ormRepository = dataSource.getRepository(User);
     }
 
-    public async findAll({ page, skip, take }: SearchParams): Promise<IPaginateUser> {
+    public async findAll({
+        page,
+        skip,
+        take,
+    }: SearchParams): Promise<IPaginateUser> {
         const [users, count] = await this.ormRepository
             .createQueryBuilder()
             .skip(skip)
@@ -43,7 +50,11 @@ export class UsersRepository implements IUserRepository {
         return user;
     }
 
-    public async create({ email, name, password }: ICreateUser): Promise<IUser> {
+    public async create({
+        email,
+        name,
+        password,
+    }: ICreateUser): Promise<IUser> {
         const user = await this.ormRepository.create({
             email,
             name,
@@ -62,5 +73,15 @@ export class UsersRepository implements IUserRepository {
 
     public async delete(id: number): Promise<void> {
         await this.ormRepository.delete(id);
+    }
+
+    public async findByAllEmail(emails: string[]): Promise<IUser[] | null> {
+        const user = await this.ormRepository.find({
+            where: {
+                email: In(emails),
+            },
+        });
+
+        return user;
     }
 }

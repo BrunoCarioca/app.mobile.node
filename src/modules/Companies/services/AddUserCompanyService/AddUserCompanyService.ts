@@ -10,12 +10,16 @@ export class AddUserCompanyService {
         private companiesUsersRepository: CompaniesToUsersRepository,
     ) {}
 
-    public async execute(userId: number, companyId: string, newUserId: number) {
-        const companies_users = await this.companiesUsersRepository.findByCompanyIdAndUserId(
-            userId,
-            companyId,
-        );
-
+    public async execute(
+        userId: number,
+        companyId: string,
+        newUserEmail: string,
+    ) {
+        const companies_users =
+            await this.companiesUsersRepository.findByCompanyIdAndUserId(
+                userId,
+                companyId,
+            );
 
         if (!companies_users) {
             throw new AppError('User not In company!');
@@ -25,28 +29,27 @@ export class AddUserCompanyService {
             throw new AppError('User not have permission!');
         }
 
-        const user = await this.usersRepository.findById(newUserId);
+        const user = await this.usersRepository.findByEmail(newUserEmail);
 
         if (!user) {
             throw new AppError('New User not exist!');
         }
 
-        const companies_users_exist = await this.companiesUsersRepository.findByCompanyIdAndUserId(
-            newUserId,
-            companyId,
-        );
+        const companies_users_exist =
+            await this.companiesUsersRepository.findByCompanyIdAndUserId(
+                user.id,
+                companyId,
+            );
 
         if (companies_users_exist) {
             throw new AppError('User already join the company');
         }
 
-        const company = await this.companyRepository.findById(companyId);
-
-        if (!company) {
-            throw new AppError('Company not exist!');
-        }
-
-        const res = await this.companiesUsersRepository.create(user, company, 3);
+        const res = await this.companiesUsersRepository.create(
+            user,
+            companies_users.company,
+            3,
+        );
 
         return res;
     }

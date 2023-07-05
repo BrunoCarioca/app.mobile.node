@@ -9,7 +9,7 @@ interface ICreateProjectService {
     admin: number;
     company: string;
     description: string;
-    users: number[];
+    users: string[];
 }
 
 export class CreateProjectService {
@@ -19,11 +19,18 @@ export class CreateProjectService {
         private usersCompanyRespository: ICompaniesToUsersRepository,
     ) {}
 
-    public async exec({ name, admin, company, description, users }: ICreateProjectService) {
-        const userExist = await this.usersCompanyRespository.findByCompanyIdAndUserId(
-            admin,
-            company,
-        );
+    public async exec({
+        name,
+        admin,
+        company,
+        description,
+        users,
+    }: ICreateProjectService) {
+        const userExist =
+            await this.usersCompanyRespository.findByCompanyIdAndUserId(
+                admin,
+                company,
+            );
 
         if (!userExist) {
             throw new AppError('User not are in company or company not exist!');
@@ -33,10 +40,15 @@ export class CreateProjectService {
             throw new AppError('User not have permission!');
         }
 
-        const usersAddExist = await this.usersCompanyRespository.findAllByCompanyIdAndUserId(
-            users,
-            company,
-        );
+        const usersAddExist =
+            await this.usersCompanyRespository.findAllByCompanyIdAndUserEmail(
+                users,
+                company,
+            );
+
+        if (!usersAddExist) {
+            throw new AppError('Users not exist');
+        }
 
         if (usersAddExist.length !== users.length) {
             throw new AppError('Users have to be in the company to Add!');

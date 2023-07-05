@@ -21,7 +21,7 @@ usersProjectRouter.post(
     '/:id',
     celebrate({
         [Segments.BODY]: {
-            users: Joi.array().items(Joi.number()).required(),
+            users: Joi.array().items(Joi.string().email()).required(),
             companyId: Joi.string().required().uuid(),
         },
         [Segments.PARAMS]: {
@@ -36,7 +36,7 @@ usersProjectRouter.delete(
     '/:id',
     celebrate({
         [Segments.BODY]: {
-            users: Joi.array().items(Joi.number()).required(),
+            users: Joi.array().items(Joi.string().email()).required(),
         },
         [Segments.PARAMS]: {
             id: Joi.string().required().uuid(),

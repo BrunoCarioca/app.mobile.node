@@ -89,8 +89,8 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         return companiesUsers;
     }
 
-    public async findAllByCompanyIdAndUserId(
-        usersId: number[],
+    public async findAllByCompanyIdAndUserEmail(
+        usersEmail: string[],
         companyId: string,
     ): Promise<ICompaniesUsers[]> {
         const companiesUsers = await this.ormRepository.find({
@@ -100,7 +100,7 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
             },
             where: {
                 user: {
-                    id: In(usersId),
+                    email: In(usersEmail),
                 },
                 company: {
                     id: companyId,

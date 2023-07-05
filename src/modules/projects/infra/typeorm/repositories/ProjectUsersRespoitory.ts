@@ -123,7 +123,9 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
     ): Promise<IProjectsUsers | null> {
         const projects_users = await this.ormRepository.findOne({
             relations: {
-                project: true,
+                project: {
+                    company: true,
+                },
                 user: true,
             },
             where: {
@@ -139,8 +141,8 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
         return projects_users;
     }
 
-    public async findByUserAllIdsProjectId(
-        ids: number[],
+    public async findByUserAllEmailProjectId(
+        emails: string[],
         projectId: string,
     ): Promise<IProjectsUsers[] | null> {
         const projectUsers = await this.ormRepository.find({
@@ -154,7 +156,7 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
             },
             where: {
                 user: {
-                    id: In(ids),
+                    email: In(emails),
                 },
                 project: {
                     id: projectId,
