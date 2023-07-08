@@ -211,4 +211,30 @@ export class ProjectsUsersRepository implements IProjectUsersRepository {
             count,
         };
     }
+
+    public async findByUserEmailAndCompanyId(
+        usersEmail: string[],
+        companyId: string,
+    ): Promise<IProjectsUsers[]> {
+        const projectsUsers = await this.ormRepository.find({
+            relations: {
+                user: true,
+                project: {
+                    company: true,
+                },
+            },
+            where: {
+                user: {
+                    email: In(usersEmail),
+                },
+                project: {
+                    company: {
+                        id: companyId,
+                    },
+                },
+            },
+        });
+
+        return projectsUsers;
+    }
 }

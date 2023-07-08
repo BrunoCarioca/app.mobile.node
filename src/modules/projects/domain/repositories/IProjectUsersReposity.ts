@@ -47,4 +47,8 @@ export interface IProjectUsersRepository {
         name: string,
         user_id: number,
     ): Promise<SearchProject | null>;
+    findByUserEmailAndCompanyId(
+        usersEmail: string[],
+        companyId: string,
+    ): Promise<IProjectsUsers[]>;
 }

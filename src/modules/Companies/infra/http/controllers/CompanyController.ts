@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { CompaniesToUsersRepository } from '../../typeorm/repositories/CompaniesToUsersRepository';
 import { CompanyRepository } from '../../typeorm/repositories/CompanyRepository';
 import { SearchCompanyService } from '@modules/Companies/services/SearchCompanyService/SearchCompanyService';
+import { DeleteCompanyService } from '@modules/Companies/services/DeleteCompanyService/DeleteCompanyService';
 
 export class CompanyController {
     public async create(
@@ -50,5 +51,24 @@ export class CompanyController {
         );
 
         return response.status(200).json(companies);
+    }
+
+    public async delete(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const companyId = request.params.id;
+        const userLoginId = Number(request.user.id);
+
+        const companiesToUsersRepository = new CompaniesToUsersRepository();
+        const companyRepository = new CompanyRepository();
+        const deleteCompanyService = new DeleteCompanyService(
+            companiesToUsersRepository,
+            companyRepository,
+        );
+
+        await deleteCompanyService.execute(companyId, userLoginId);
+
+        return response.status(200).json([]);
     }
 }

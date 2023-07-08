@@ -30,3 +30,17 @@ companyUserRouter.post(
     isAuthenticated,
     companyUserController.addUserToCompany,
 );
+
+companyUserRouter.delete(
+    '/:companyId',
+    celebrate({
+        [Segments.PARAMS]: {
+            companyId: Joi.string().uuid().required(),
+        },
+        [Segments.BODY]: {
+            usersEmail: Joi.array().required().items(Joi.string().email()),
+        },
+    }),
+    isAuthenticated,
+    companyUserController.removeUserFromCompany,
+);

@@ -142,8 +142,8 @@ export class CompaniesToUsersRepository implements ICompaniesToUsersRepository {
         return updateCompaniesUser;
     }
 
-    public async delete(id: number): Promise<void> {
-        await this.ormRepository.delete(id);
+    public async delete(companies_users: ICompaniesUsers[]): Promise<void> {
+        await this.ormRepository.remove(companies_users);
     }
 
     public async create(

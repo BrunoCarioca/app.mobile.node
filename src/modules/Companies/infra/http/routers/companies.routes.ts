@@ -28,3 +28,14 @@ companyRouter.get(
     isAuthenticated,
     companyController.search,
 );
+
+companyRouter.delete(
+    '/:id',
+    celebrate({
+        [Segments.PARAMS]: {
+            id: Joi.string().required().uuid(),
+        },
+    }),
+    isAuthenticated,
+    companyController.delete,
+);

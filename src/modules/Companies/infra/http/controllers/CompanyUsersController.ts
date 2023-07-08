@@ -5,6 +5,9 @@ import { UsersRepository } from '@modules/users/infra/typeorm/repositories/Users
 import { Request, Response } from 'express';
 import { CompaniesToUsersRepository } from '../../typeorm/repositories/CompaniesToUsersRepository';
 import { CompanyRepository } from '../../typeorm/repositories/CompanyRepository';
+import { RemoveUsersInProjectService } from '@modules/projects/services/RemoveUsersInProject/RemoveUsersInProjectService';
+import { ProjectsUsersRepository } from '@modules/projects/infra/typeorm/repositories/ProjectUsersRespoitory';
+import { RemoveUserToCompanyService } from '@modules/Companies/services/RemoveUserToCompanyService/RemoveUserToCompanyService';
 
 export class CompanyUserController {
     public async listUsersCompany(
@@ -66,5 +69,28 @@ export class CompanyUserController {
         const companyUsers = await userCompanyListService.execute(userId);
 
         return response.status(200).json(companyUsers);
+    }
+
+    public async removeUserFromCompany(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const userLoginId = Number(request.user.id);
+        const { companyId } = request.params;
+        const { usersEmail } = request.body;
+
+        const companiesUsersRepository = new CompaniesToUsersRepository();
+        const projectsUsersRepository = new ProjectsUsersRepository();
+        const removeUserToCompanyService = new RemoveUserToCompanyService(
+            companiesUsersRepository,
+            projectsUsersRepository,
+        );
+
+        await removeUserToCompanyService.execute({
+            companyId,
+            userLoginId,
+            usersEmail,
+        });
+        return response.status(200).json([]);
     }
 }

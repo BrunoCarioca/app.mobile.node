@@ -4,17 +4,22 @@ import AppError from '@shared/errors/AppError';
 interface IRemoveUsersParams {
     userId: number;
     projectId: string;
-    users: number[];
+    users: string[];
 }
 
 export class RemoveUsersInProjectService {
     constructor(private projectUsersRepository: IProjectUsersRepository) {}
 
-    public async execute({ userId, projectId, users }: IRemoveUsersParams): Promise<void> {
-        const userAndProjectExist = await this.projectUsersRepository.findByUserIdAndProjectId(
-            userId,
-            projectId,
-        );
+    public async execute({
+        userId,
+        projectId,
+        users,
+    }: IRemoveUsersParams): Promise<void> {
+        const userAndProjectExist =
+            await this.projectUsersRepository.findByUserIdAndProjectId(
+                userId,
+                projectId,
+            );
 
         if (!userAndProjectExist) {
             throw new AppError('User not are in Project/Project not exist!');
@@ -24,14 +29,21 @@ export class RemoveUsersInProjectService {
             throw new AppError('User not have permission');
         }
 
-        const projectUsers = await this.projectUsersRepository.findByUserAllIdsProjectId(
-            users,
-            projectId,
-        );
+        const projectUsers =
+            await this.projectUsersRepository.findByUserAllEmailProjectId(
+                users,
+                projectId,
+            );
 
-        if (!projectUsers) {
+        if (!projectUsers || projectUsers.length === 0) {
             throw new AppError('Users not are in project!');
         }
+
+        projectUsers.forEach(projectUser => {
+            if (userId === projectUser.user.id) {
+                throw new AppError('User not can remove yourself!');
+            }
+        });
 
         const projectsIds = projectUsers.map(projectUser => projectUser.id);
 

@@ -26,6 +26,6 @@ export interface ICompaniesToUsersRepository {
         role_user: number,
     ): Promise<ICompaniesUsers>;
     save(companies_users: ICompaniesUsers): Promise<ICompaniesUsers>;
-    delete(id: number): Promise<void>;
     findByFantasia(fantasia: string, user_id: number): Promise<SearchCompany>;
+    delete(companies_users: ICompaniesUsers[]): Promise<void>;
 }
