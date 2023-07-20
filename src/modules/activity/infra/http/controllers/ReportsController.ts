@@ -6,9 +6,13 @@ import { UsersRepository } from '@modules/users/infra/typeorm/repositories/Users
 import { Request, Response } from 'express';
 import { ActivityRepository } from '../../typeorm/repositories/ActivityRepository';
 import { ReportRepository } from '../../typeorm/repositories/ReportRepository';
+import { SearchReportService } from '@modules/activity/services/SearchReportService/SearchReportService';
 
 export class ReportsController {
-    public async create(request: Request, response: Response): Promise<Response> {
+    public async create(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { end, activity, report } = request.body;
         const userLoginId = Number(request.user.id);
 
@@ -22,7 +26,12 @@ export class ReportsController {
             reportRepository,
         );
 
-        await createReportService.execute({ activity, report, userLoginId, end });
+        await createReportService.execute({
+            activity,
+            report,
+            userLoginId,
+            end,
+        });
 
         return response.status(200).json([]);
     }
@@ -45,7 +54,10 @@ export class ReportsController {
         return response.status(200).json(report);
     }
 
-    public async updateEnd(request: Request, response: Response): Promise<Response> {
+    public async updateEnd(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
         const { end } = request.body;
         const activityId = Number(request.params.activityId);
         const userLoginId = Number(request.user.id);
@@ -61,5 +73,22 @@ export class ReportsController {
         await updateEndReportService.execute(end, userLoginId, activityId);
 
         return response.status(200).json([]);
+    }
+
+    public async search(
+        request: Request,
+        response: Response,
+    ): Promise<Response> {
+        const projectId = request.query.project;
+        const month = request.query.month ? Number(request.query.month) : 0;
+
+        const reportRepository = new ReportRepository();
+        const searchReportService = new SearchReportService(reportRepository);
+
+        const reports = await searchReportService.execute(
+            month,
+            projectId as string,
+        );
+        return response.status(200).json(reports);
     }
 }

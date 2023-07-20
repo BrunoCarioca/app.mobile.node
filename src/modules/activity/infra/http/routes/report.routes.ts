@@ -26,6 +26,18 @@ reportRouter.post(
 );
 
 reportRouter.get(
+    '/search',
+    celebrate({
+        [Segments.QUERY]: {
+            month: Joi.number().min(1),
+            project: Joi.string().required().uuid(),
+        },
+    }),
+    isAuthenticated,
+    reportsController.search,
+);
+
+reportRouter.get(
     '/:activityId',
     celebrate({
         [Segments.PARAMS]: {

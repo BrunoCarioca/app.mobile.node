@@ -1,7 +1,10 @@
-import { IReport, IReportCreate } from '@modules/activity/domain/models/IReport';
+import {
+    IReport,
+    IReportCreate,
+} from '@modules/activity/domain/models/IReport';
 import { IReportRepository } from '@modules/activity/domain/repository/IReportRepository';
 import { dataSource } from '@shared/infra/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, MoreThanOrEqual } from 'typeorm';
 import Report from '../entities/Report';
 
 export class ReportRepository implements IReportRepository {
@@ -39,5 +42,25 @@ export class ReportRepository implements IReportRepository {
         });
 
         return report;
+    }
+
+    public async findByReportDate(
+        projectId: string,
+        searchDate: Date,
+    ): Promise<IReport[]> {
+        console.log(projectId, searchDate);
+        const reports = this.ormRepository.find({
+            where: {
+                activity: {
+                    project: {
+                        id: projectId,
+                    },
+                    status: true,
+                },
+                created_at: MoreThanOrEqual(searchDate),
+            },
+        });
+
+        return reports;
     }
 }

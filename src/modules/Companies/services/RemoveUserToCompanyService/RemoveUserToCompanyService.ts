@@ -40,7 +40,15 @@ export class RemoveUserToCompanyService {
             );
 
         if (userDeleteAreInProject.length > 0) {
-            throw new AppError('Can not remove user are someone Project');
+            throw new AppError('Can not remove user are in some Project');
+        }
+
+        const userIsCompanyOwner = userDeleteAreInProject.find(
+            user_project => user_project.user.id === userLoginId,
+        );
+
+        if (userIsCompanyOwner) {
+            throw new AppError('User is company CEO!');
         }
 
         const users =

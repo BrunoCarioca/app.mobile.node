@@ -1,5 +1,4 @@
 import { IActivity } from '@modules/activity/domain/models/IActivity';
-import { IActivityRepository } from '@modules/activity/domain/repository/IActivityRepository';
 import { ActivityRepository } from '@modules/activity/infra/typeorm/repositories/ActivityRepository';
 import { subDays, subMonths, startOfMonth } from 'date-fns';
 
