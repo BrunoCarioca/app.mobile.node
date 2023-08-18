@@ -48,8 +48,24 @@ export class ReportRepository implements IReportRepository {
         projectId: string,
         searchDate: Date,
     ): Promise<IReport[]> {
-        console.log(projectId, searchDate);
         const reports = this.ormRepository.find({
+            select: {
+                id: true,
+                report: true,
+                created_at: true,
+                updated_at: true,
+                activity: {
+                    id: true,
+                    user: {
+                        name: true,
+                    },
+                },
+            },
+            relations: {
+                activity: {
+                    user: true,
+                },
+            },
             where: {
                 activity: {
                     project: {
